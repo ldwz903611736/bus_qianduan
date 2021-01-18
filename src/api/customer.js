@@ -11,6 +11,16 @@ export default {
     })
   },
 
+  // 导出客户信息为excel
+  export(busCustomerQuery) {
+    return request({
+      url: `/customer/export`,
+      method: 'post',
+      data: busCustomerQuery,
+      responseType: 'blob'
+    })
+  },
+
   // 根据ID查询客户信息
   getById(identity) {
     return request({

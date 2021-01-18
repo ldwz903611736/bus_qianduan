@@ -63,26 +63,12 @@
       @selection-change="handleSelectionChange"
     >
 
-      <!--      <el-table-column label="序号" width="70" align="center">-->
-      <!--        <template slot-scope="scope">{{ (page - 1) * limit + scope.$index + 1 }}</template>-->
-      <!--      </el-table-column>-->
-
-
       <el-table-column
         type="selection"
         width="55">
       </el-table-column>
 
       <el-table-column prop="checkid" label="检查单号" width="200" fixed/>
-
-      <!--      <el-table-column label="图书封面">-->
-      <!--        <template slot-scope="scope">-->
-      <!--          <el-popover placement="top-start" title="" trigger="hover">-->
-      <!--            <img :src="scope.row.image" alt="" style="width: 150px;height: 200px">-->
-      <!--            <img slot="reference" :src="scope.row.image" style="width: 30px;height: 30px">-->
-      <!--          </el-popover>-->
-      <!--        </template>-->
-      <!--      </el-table-column>-->
 
       <el-table-column prop="rentid" label="出租单号" width="220"/>
 
@@ -106,20 +92,8 @@
         </template>
       </el-table-column>
 
-      <!--      <el-table-column label="首页显示" align="center">-->
-      <!--        <template slot-scope="{row}">-->
-      <!--          <el-switch-->
-      <!--            v-model="row.status"-->
-      <!--            :active-value="1"-->
-      <!--            :inactive-value="0"-->
-      <!--            @change="change(row.status, row.id)"/></template>-->
-      <!--      </el-table-column>-->
-
-      <el-table-column label="操作" width="200" fixed="right">
+      <el-table-column label="操作" width="250" fixed="right">
         <template slot-scope="scope">
-          <!--          <router-link :to="'/check/edit/'+scope.row.id">-->
-          <!--            <el-button type="primary" size="mini" icon="el-icon-edit">修改</el-button>-->
-          <!--          </router-link>-->
           <el-button
             type="primary"
             size="mini"
@@ -131,6 +105,12 @@
             size="mini"
             @click="removeDataById(scope.row.checkid)"
           >删除</el-button>
+
+          <el-button
+            type="success"
+            size="mini"
+            @click="exportExcel(scope.row.checkid)"
+          >导出出租单</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -178,6 +158,7 @@
 <script>
   // 引入调用的相关api下的js文件
   import check from '@/api/check'
+  import axios from 'axios'
 
   export default {
     // 写核心代码
@@ -198,6 +179,24 @@
       this.getList()
     },
     methods: {
+      exportExcel(checkid) {
+        axios({
+          url: `http://localhost:9999/check/export/${checkid}`,
+          method: 'get',
+          responseType: 'blob'
+        }).then(response => {
+          console.log(response)
+          const link = document.createElement('a');
+          let blob = new Blob([response.data], {type: 'application/vnd.ms-excel'});
+          link.style.display = 'none';
+          link.href = URL.createObjectURL(blob);
+
+          link.setAttribute('download', '检查单信息' + '.xlsx');
+          document.body.appendChild(link);
+          link.click();
+          document.body.removeChild(link);
+        })
+      },
       getList(page = 1) {
         this.page = page
         check.list(this.page, this.limit, this.busCheckQuery)

@@ -114,7 +114,7 @@
           <el-button
             type="success"
             size="mini"
-            @click="exportRent(scope.row.rentid)"
+            @click="exportExcel(scope.row.rentid)"
           >导出出租单</el-button>
         </template>
       </el-table-column>
@@ -164,6 +164,7 @@
 <script>
   // 引入调用的相关api下的js文件
   import rent from '@/api/rent'
+  import axios from 'axios'
 
   export default {
     // 写核心代码
@@ -184,6 +185,24 @@
       this.getList()
     },
     methods: {
+      exportExcel(rentid) {
+        axios({
+          url: `http://localhost:9999/rent/export/${rentid}`,
+          method: 'get',
+          responseType: 'blob'
+        }).then(response => {
+          console.log(response)
+          const link = document.createElement('a');
+          let blob = new Blob([response.data], {type: 'application/vnd.ms-excel'});
+          link.style.display = 'none';
+          link.href = URL.createObjectURL(blob);
+
+          link.setAttribute('download', '出租单信息' + '.xlsx');
+          document.body.appendChild(link);
+          link.click();
+          document.body.removeChild(link);
+        })
+      },
       getList(page = 1) {
         this.page = page
         rent.list(this.page, this.limit, this.busRentQuery)

@@ -45,6 +45,7 @@
     </el-form>
 
     <el-button type="primary" size="mini" @click="add()">添加</el-button>
+    <el-button type="success" size="mini" @click="exportExcel()">导出</el-button>
     <el-button type="danger" size="mini" @click="removeBatch()">批量删除</el-button>
 
     <el-table
@@ -55,26 +56,12 @@
       @selection-change="handleSelectionChange"
     >
 
-<!--      <el-table-column label="序号" width="70" align="center">-->
-<!--        <template slot-scope="scope">{{ (page - 1) * limit + scope.$index + 1 }}</template>-->
-<!--      </el-table-column>-->
-
-
       <el-table-column
         type="selection"
         width="55">
       </el-table-column>
 
       <el-table-column prop="identity" label="身份证号" width="200"/>
-
-<!--      <el-table-column label="图书封面">-->
-<!--        <template slot-scope="scope">-->
-<!--          <el-popover placement="top-start" title="" trigger="hover">-->
-<!--            <img :src="scope.row.image" alt="" style="width: 150px;height: 200px">-->
-<!--            <img slot="reference" :src="scope.row.image" style="width: 30px;height: 30px">-->
-<!--          </el-popover>-->
-<!--        </template>-->
-<!--      </el-table-column>-->
 
       <el-table-column prop="custname" label="客户姓名"/>
 
@@ -96,22 +83,8 @@
         </template>
       </el-table-column>
 
-
-
-<!--      <el-table-column label="首页显示" align="center">-->
-<!--        <template slot-scope="{row}">-->
-<!--          <el-switch-->
-<!--            v-model="row.status"-->
-<!--            :active-value="1"-->
-<!--            :inactive-value="0"-->
-<!--            @change="change(row.status, row.id)"/></template>-->
-<!--      </el-table-column>-->
-
       <el-table-column label="操作" width="200">
         <template slot-scope="scope">
-<!--          <router-link :to="'/customer/edit/'+scope.row.id">-->
-<!--            <el-button type="primary" size="mini" icon="el-icon-edit">修改</el-button>-->
-<!--          </router-link>-->
           <el-button
             type="primary"
             size="mini"
@@ -188,6 +161,7 @@
 <script>
   // 引入调用的相关api下的js文件
   import customer from '@/api/customer'
+  import axios from 'axios'
 
   export default {
     // 写核心代码
@@ -209,6 +183,25 @@
       this.getList()
     },
     methods: {
+      exportExcel() {
+        axios({
+          url: `http://localhost:9999/customer/export`,
+          method: 'post',
+          data: this.busCustomerQuery,
+          responseType: 'blob'
+        }).then(response => {
+          console.log(response)
+          const link = document.createElement('a');
+          let blob = new Blob([response.data], {type: 'application/vnd.ms-excel'});
+          link.style.display = 'none';
+          link.href = URL.createObjectURL(blob);
+
+          link.setAttribute('download', '客户信息' + '.xlsx');
+          document.body.appendChild(link);
+          link.click();
+          document.body.removeChild(link);
+        })
+      },
       getList(page = 1) {
         this.page = page
         customer.list(this.page, this.limit, this.busCustomerQuery)
