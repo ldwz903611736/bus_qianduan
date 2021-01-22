@@ -1,24 +1,67 @@
 import request from '@/utils/request'
+import da from 'element-ui/src/locale/lang/da'
 
-export function login(data) {
-  return request({
-    url: '/user/login',
-    method: 'post',
-    data
-  })
-}
+export default {
 
-export function getInfo(token) {
-  return request({
-    url: '/user/info',
-    method: 'get',
-    params: { token }
-  })
-}
+  list(page, count, userQuery) {
+    return request({
+      url: `/user/list/${page}/${count}`,
+      method: 'post',
+      data: userQuery
+    })
+  },
 
-export function logout() {
-  return request({
-    url: '/user/logout',
-    method: 'post'
-  })
+  add(SysRole) {
+    return request({
+      url: `/user`,
+      method: 'post',
+      data: SysRole
+    })
+  },
+
+  getInfoById(userid) {
+    return request({
+      url: `/user/${userid}`,
+      method: 'get'
+    })
+  },
+
+  updateUser(SysUser) {
+    return request({
+      url: `/user`,
+      method: 'put',
+      data: SysUser
+    })
+  },
+
+  deleteById(userid) {
+    return request({
+      url: `/user/${userid}`,
+      method: 'delete'
+    })
+  },
+
+  resetUserPwd(userid, pwd) {
+    const data = {
+      userid,
+      pwd
+    }
+    return request({
+      url: '/user/resetPwd',
+      method: 'put',
+      data: data
+    })
+  },
+
+  changeUserStatus(userid, available) {
+    const data = {
+      userid,
+      available
+    }
+    return request({
+      url: `/user/changeStatus`,
+      method: 'put',
+      data: data
+    })
+  }
 }

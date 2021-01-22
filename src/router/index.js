@@ -148,7 +148,33 @@ export const constantRoutes = [
       }
     ]
   },
-
+  {
+    path: '/system',
+    component: Layout,
+    redirect: '/example/table',
+    name: '系统管理',
+    meta: { title: '系统管理', icon: 'el-icon-s-help' },
+    children: [
+      {
+        path: '/user/index',
+        name: '用户管理',
+        component: () => import('@/views/user/index'),
+        meta: { title: '用户管理', icon: 'table' }
+      },
+      {
+        path: '/role/index',
+        name: '角色管理',
+        component: () => import('@/views/role/index'),
+        meta: { title: '角色管理', icon: 'tree' }
+      },
+      {
+        path: '/menu/index',
+        name: '菜单管理',
+        component: () => import('@/views/menu/index'),
+        meta: { title: '菜单管理', icon: 'tree' }
+      }
+    ]
+  },
   {
     path: '/base',
     component: Layout,
