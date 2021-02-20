@@ -1,10 +1,11 @@
 import request from '@/utils/request'
+import da from 'element-ui/src/locale/lang/da'
 
 export function login(data) {
   return request({
     url: '/user/login',
     method: 'post',
-    data
+    data: data
   })
 }
 
