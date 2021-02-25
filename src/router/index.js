@@ -1,10 +1,14 @@
 import Vue from 'vue'
 import Router from 'vue-router'
+import store from '@/store'
+import { getToken } from '@/utils/auth'
 
 Vue.use(Router)
 
 /* Layout */
 import Layout from '@/layout'
+import fa from 'element-ui/src/locale/lang/fa'
+import menu from '@/api/menu'
 
 /**
  * Note: sub-menu only appear when route children.length >= 1
@@ -30,6 +34,7 @@ import Layout from '@/layout'
  * a base page that does not have permission requirements
  * all roles can be accessed
  */
+
 export const constantRoutes = [
   {
     path: '/login',
@@ -46,9 +51,8 @@ export const constantRoutes = [
   {
     path: '/',
     component: Layout,
-    redirect: '/dashboard',
     children: [{
-      path: 'dashboard',
+      path: '/dashboard',
       name: '首页',
       component: () => import('@/views/dashboard/index'),
       meta: { title: '首页', icon: 'dashboard' }
@@ -57,55 +61,72 @@ export const constantRoutes = [
   {
     path: '/system',
     component: Layout,
-    redirect: '/example/table',
     name: '系统管理',
-    meta: { title: '系统管理', icon: 'el-icon-s-help' },
+    meta: { title: '系统管理', icon: 'el-icon-setting' },
     children: [
       {
         path: '/user/index',
         name: '用户管理',
         component: () => import('@/views/user/index'),
-        meta: { title: '用户管理', icon: 'table' }
+        meta: { title: '用户管理', icon: 'user' },
       },
       {
         path: '/role/index',
         name: '角色管理',
         component: () => import('@/views/role/index'),
-        meta: { title: '角色管理', icon: 'tree' }
+        meta: { title: '角色管理', icon: 'peoples' },
       },
       {
         path: '/menu/index',
         name: '菜单管理',
         component: () => import('@/views/menu/index'),
-        meta: { title: '菜单管理', icon: 'tree' }
-      }
+        meta: { title: '菜单管理', icon: 'tree-table' },
+      },
+      {
+        path: '/log',
+        component: () => import('@/views/log/index'),
+        name: '日志管理',
+        meta: { title: '日志管理', icon: 'log' },
+        children: [
+          {
+            path: '/log/operlog',
+            name: '操作日志',
+            component: () => import('@/views/operlog/index'),
+            meta: { title: '操作日志', icon: 'form' },
+          },
+          {
+            path: '/log/logininfor',
+            name: '登录日志',
+            component: () => import('@/views/logininfor/index'),
+            meta: { title: '登录日志', icon: 'logininfor' },
+          }
+        ]
+      },
     ]
   },
   {
     path: '/base',
     component: Layout,
-    redirect: '/example/table',
     name: '基础管理',
-    meta: { title: '基础管理', icon: 'el-icon-s-help' },
+    meta: { title: '基础管理', icon: 'el-icon-setting' },
     children: [
       {
         path: '/customer/index',
         name: '客户管理',
         component: () => import('@/views/customer/index'),
-        meta: { title: '客户管理', icon: 'table' }
+        meta: { title: '客户管理', icon: 'peoples' },
       },
       {
         path: '/car/index',
         name: '车辆管理',
         component: () => import('@/views/car/index'),
-        meta: { title: '车辆管理', icon: 'tree' }
+        meta: { title: '车辆管理', icon: 'tree' },
       }
     ]
   },
   {
     path: '/business',
     component: Layout,
-    redirect: '/example/table',
     name: '业务管理',
     meta: { title: '业务管理', icon: 'el-icon-s-help' },
     children: [
@@ -113,32 +134,31 @@ export const constantRoutes = [
         path: '/carRent/index',
         name: '汽车出租',
         component: () => import('@/views/carRent/index'),
-        meta: { title: '汽车出租', icon: 'table' }
+        meta: { title: '汽车出租', icon: 'table' },
       },
       {
         path: '/rentAgreement/index',
         name: '出租单管理',
         component: () => import('@/views/rentAgreement/index'),
-        meta: { title: '出租单管理', icon: 'tree' }
+        meta: { title: '出租单管理', icon: 'tree' },
       },
       {
         path: '/addCar/index',
         name: '汽车入库',
         component: () => import('@/views/addCar/index'),
-        meta: { title: '汽车入库', icon: 'tree' }
+        meta: { title: '汽车入库', icon: 'tree' },
       },
       {
         path: '/check/index',
         name: '检查单管理',
         component: () => import('@/views/check/index'),
-        meta: { title: '检查单管理', icon: 'tree' }
+        meta: { title: '检查单管理', icon: 'tree' },
       },
     ]
   },
   {
     path: '/stat',
     component: Layout,
-    redirect: '/example/table',
     name: '统计分析',
     meta: { title: '统计分析', icon: 'el-icon-s-help' },
     children: [
@@ -146,25 +166,53 @@ export const constantRoutes = [
         path: '/customerRegion/index',
         name: '客户地区统计',
         component: () => import('@/views/customerRegion/index'),
-        meta: { title: '客户地区统计', icon: 'table' }
+        meta: { title: '客户地区统计', icon: 'table' },
       },
       {
         path: '/customerRegionSex/index',
         name: '客户地区性别统计',
         component: () => import('@/views/customerRegionSex/index'),
-        meta: { title: '客户地区性别统计', icon: 'tree' }
+        meta: { title: '客户地区性别统计', icon: 'tree' },
       },
       {
         path: '/opernameYearGrade/index',
         name: '业务员年度销售额',
         component: () => import('@/views/opernameYearGrade/index'),
-        meta: { title: '业务员年度销售额', icon: 'tree' }
+        meta: { title: '业务员年度销售额', icon: 'tree' },
       },
       {
         path: '/companyYearGrade/index',
         name: '公司年度月份销售额',
         component: () => import('@/views/companyYearGrade/index'),
-        meta: { title: '公司年度月份销售额', icon: 'tree' }
+        meta: { title: '公司年度月份销售额', icon: 'tree' },
+      }
+    ]
+  },
+  {
+    path: '/monitor',
+    component: Layout,
+    name: '系统监控',
+    meta: { title: '系统监控', icon: 'monitor' },
+    children: [
+      {
+        path: '/monitor/druid',
+        name: '数据监控',
+        component: () => import('@/views/druid/index'),
+        meta: { title: '数据监控', icon: 'druid' },
+      },
+    ]
+  },
+  {
+    path: '/user',
+    component: Layout,
+    hidden: true,
+    redirect: 'noredirect',
+    children: [
+      {
+        path: 'profile',
+        component: (resolve) => require(['@/views/userprofile/index'], resolve),
+        name: 'Profile',
+        meta: { title: '个人中心', icon: 'user' }
       }
     ]
   },

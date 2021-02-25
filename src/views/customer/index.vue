@@ -37,16 +37,16 @@
           </el-form-item>
         </el-col>
         <el-col :span="6">
-          <el-button type="primary" size="mini" @click="getList()">查询</el-button>
-          <el-button type="default" size="mini" @click="resetData()">清空</el-button>
+          <el-button type="primary" icon="el-icon-search" size="mini" @click="getList()">搜索</el-button>
+          <el-button type="default" icon="el-icon-refresh" size="mini" @click="resetData()">重置</el-button>
         </el-col>
       </el-row>
 
     </el-form>
 
-    <el-button type="primary" size="mini" @click="add()">添加</el-button>
-    <el-button type="success" size="mini" @click="exportExcel()">导出</el-button>
-    <el-button type="danger" size="mini" @click="removeBatch()">批量删除</el-button>
+    <el-button type="primary" plain size="mini" icon="el-icon-plus" @click="add()">新增</el-button>
+    <el-button type="warning" plain size="mini" icon="el-icon-download" @click="exportExcel()">导出</el-button>
+    <el-button type="danger" plain size="mini" icon="el-icon-delete" :disabled="mutiple" @click="removeBatch()">批量删除</el-button>
 
     <el-table
       ref="multipleTable"
@@ -57,43 +57,46 @@
     >
 
       <el-table-column
+        align="center"
         type="selection"
         width="55">
       </el-table-column>
 
-      <el-table-column prop="identity" label="身份证号" width="200"/>
+      <el-table-column prop="identity" align="center" label="身份证号" width="200"/>
 
-      <el-table-column prop="custname" label="客户姓名"/>
+      <el-table-column prop="custname" align="center" label="客户姓名"/>
 
-      <el-table-column prop="address" label="客户地址"/>
+      <el-table-column prop="address" align="center" label="客户地址"/>
 
-      <el-table-column prop="career" label="客户职业"/>
+      <el-table-column prop="career" align="center" label="客户职业"/>
 
-      <el-table-column prop="phone" label="手机号码"/>
+      <el-table-column prop="phone" align="center" label="手机号码"/>
 
-      <el-table-column label="性别" width="50">
+      <el-table-column label="性别" align="center" width="50">
         <template slot-scope="scope">
           {{ scope.row.sex === 0 ? '女' : '男'}}
         </template>
       </el-table-column>
 
-      <el-table-column label="录入时间" width="200">
+      <el-table-column label="录入时间" align="center" width="200">
         <template slot-scope="scope">
           {{ scope.row.createtime | formatDate }}
         </template>
       </el-table-column>
 
-      <el-table-column label="操作" width="200">
+      <el-table-column label="操作" align="center" width="200">
         <template slot-scope="scope">
           <el-button
-            type="primary"
+            type="text"
             size="mini"
+            icon="el-icon-edit"
             @click="edit(scope.row.identity)"
           >编辑</el-button>
 
           <el-button
-            type="danger"
+            type="text"
             size="mini"
+            icon="el-icon-delete"
             @click="removeDataById(scope.row.identity)"
           >删除</el-button>
         </template>
@@ -109,7 +112,7 @@
       @current-change="getList"
     />
 
-    <!-- 添加或修改对话框 -->
+    <!-- 新增或修改对话框 -->
     <el-dialog :title="title" :visible.sync="dialogVisible" width="600px" append-to-body>
       <el-form ref="form" :model="form" label-width="80px">
         <el-row>
@@ -144,8 +147,13 @@
           </el-col>
           <el-col :span="12">
             <el-form-item label="性别">
-              <el-radio v-model="form.sex" label="1">男</el-radio>
-              <el-radio v-model="form.sex" label="0">女</el-radio>
+              <el-radio-group v-model="form.sex">
+                <el-radio
+                  v-for="dict in sexOptions"
+                  :key="dict.value"
+                  :label="dict.value"
+                >{{dict.label}}</el-radio>
+              </el-radio-group>
             </el-form-item>
           </el-col>
         </el-row>
@@ -162,6 +170,7 @@
   // 引入调用的相关api下的js文件
   import customer from '@/api/customer'
   import axios from 'axios'
+  import { getToken } from '@/utils/auth'
 
   export default {
     // 写核心代码
@@ -172,11 +181,22 @@
         limit: 5, // 每页记录数
         total: 0, // 总记录数
         busCustomerQuery: {},
-        title: '添加', // 添加或修改对话框标题
+        title: '新增', // 新增或修改对话框标题
         form: {},
         dialogVisible: false,
         tableChecked: [], // 批量删除的数据
-        title: "" // 对话框显示添加用户或修改用户
+        title: "", // 对话框显示新增用户或修改用户
+        mutiple: true,
+        sexOptions: [
+          {
+            value: 0,
+            label: '女'
+          },
+          {
+            value: 1,
+            label: '男'
+          }
+        ]
       }
     },
     created() {
@@ -185,21 +205,30 @@
     methods: {
       exportExcel() {
         axios({
+          headers: {
+            'Authorization' : getToken()
+          },
           url: `http://localhost:9999/customer/export`,
           method: 'post',
           data: this.busCustomerQuery,
           responseType: 'blob'
         }).then(response => {
-          console.log(response)
-          const link = document.createElement('a');
-          let blob = new Blob([response.data], {type: 'application/vnd.ms-excel'});
-          link.style.display = 'none';
-          link.href = URL.createObjectURL(blob);
+          if (response.data.code >= 3001) {
+            this.$message({
+              type: 'danger',
+              message: response.data.message
+            })
+          } else {
+            const link = document.createElement('a');
+            let blob = new Blob([response.data], {type: 'application/vnd.ms-excel'});
+            link.style.display = 'none';
+            link.href = URL.createObjectURL(blob);
 
-          link.setAttribute('download', '客户信息' + '.xlsx');
-          document.body.appendChild(link);
-          link.click();
-          document.body.removeChild(link);
+            link.setAttribute('download', '客户信息' + '.xlsx');
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+          }
         })
       },
       getList(page = 1) {
@@ -247,29 +276,35 @@
       },
       removeBatch() {
         var ids = this.tableChecked.map(item => item.identity)
-        customer.removeBatch(ids).then(response => {
-          // 删除成功
-          // 提示成功信息
-          this.$message({
-            type: 'success',
-            message: '删除成功!'
+        this.$confirm('是否确认删除编号为' + ids + "的数据项", "警告", {
+          confirmButtonText: "确定",
+          cancelButtonText: "取消",
+        }).then(() => {
+          customer.removeBatch(ids).then(response => {
+            // 删除成功
+            // 提示成功信息
+            this.$message({
+              type: 'success',
+              message: '删除成功!'
+            })
+            // 重新刷新列表
+            this.getList()
           })
-          // 重新刷新列表
-          this.getList()
-        })
-        .catch(() => {
-          this.$message({
-            type: 'info',
-            message: '已取消删除'
-          })
+            .catch(() => {
+              this.$message({
+                type: 'info',
+                message: '已取消删除'
+              })
+            })
         })
       },
       handleSelectionChange(val) {
         this.tableChecked = val;
+        this.mutiple = !val.length
       },
-      // 添加
+      // 新增
       add() {
-        this.title = '添加用户'
+        this.title = '新增用户'
         this.dialogVisible = true
       },
       // 编辑
@@ -288,7 +323,7 @@
         this.resetData()
       },
       submitForm() {
-        if (this.title == '添加用户' ) {
+        if (this.title == '新增用户' ) {
           customer.add(this.form).then(response => {
             // 提示成功信息
             this.$message({
@@ -306,7 +341,7 @@
             // 提示成功信息
             this.$message({
               type: 'danger',
-              message: '添加失败!'
+              message: '新增失败!'
             })
             // 表单信息清空
             this.form = {}

@@ -26,7 +26,8 @@
               size="small"
               v-model="busRentQuery.begindate"
               type="date"
-              placeholder="选择日期">
+              placeholder="选择日期"
+              value-format="yyyy-MM-dd">
             </el-date-picker>
           </el-form-item>
         </el-col>
@@ -36,7 +37,8 @@
               size="small"
               v-model="busRentQuery.returndate"
               type="date"
-              placeholder="选择日期">
+              placeholder="选择日期"
+              value-format="yyyy-MM-dd">
             </el-date-picker>
           </el-form-item>
         </el-col>
@@ -60,60 +62,63 @@
       style="width: 100%"
     >
 
-      <el-table-column prop="rentid" label="出租单号" fixed width="215"/>
+      <el-table-column prop="rentid" label="出租单号" align="center" fixed width="215"/>
 
 
-      <el-table-column prop="identity" label="身份证号" width="165"/>
+      <el-table-column prop="identity" label="身份证号" align="center" width="165"/>
 
-      <el-table-column prop="carnumber" label="车牌号" width="85"/>
+      <el-table-column prop="carnumber" label="车牌号" align="center" width="85"/>
 
-      <el-table-column prop="price" label="出租价格" width="80"/>
+      <el-table-column prop="price" label="出租价格" align="center" width="80"/>
 
-      <el-table-column label="归还状态" width="80">
+      <el-table-column label="归还状态" align="center" width="80">
         <template slot-scope="scope">
           {{ scope.row.rentflag === 0 ? '未归还' : '已归还'}}
         </template>
       </el-table-column>
 
-      <el-table-column label="起租时间" width="155">
+      <el-table-column label="起租时间" align="center" width="155">
         <template slot-scope="scope">
           {{ scope.row.begindate | formatDate }}
         </template>
       </el-table-column>
 
-      <el-table-column label="还车时间" width="155">
+      <el-table-column label="还车时间" align="center" width="155">
         <template slot-scope="scope">
           {{ scope.row.returndate | formatDate }}
         </template>
       </el-table-column>
 
-      <el-table-column prop="opername" label="操作员" width="80px"/>
+      <el-table-column prop="opername" align="center" label="操作员" width="95px"/>
 
-      <el-table-column label="录入时间" width="155">
+      <el-table-column label="录入时间" align="center" width="155">
         <template slot-scope="scope">
           {{ scope.row.createtime | formatDate }}
         </template>
       </el-table-column>
 
 
-      <el-table-column label="操作" fixed="right" width="250">
+      <el-table-column label="操作" align="center" fixed="right" width="250">
         <template slot-scope="scope">
 
           <el-button
-            type="primary"
+            type="text"
             size="mini"
+            icon="el-icon-edit"
             @click="edit(scope.row.rentid)"
           >编辑</el-button>
 
           <el-button
-          type="danger"
+          type="text"
           size="mini"
+          icon="el-icon-delete"
           @click="removeDataById(scope.row.rentid)"
          >删除</el-button>
 
           <el-button
-            type="success"
+            type="text"
             size="mini"
+            icon="el-icon-download"
             @click="exportExcel(scope.row.rentid)"
           >导出出租单</el-button>
         </template>
@@ -165,6 +170,7 @@
   // 引入调用的相关api下的js文件
   import rent from '@/api/rent'
   import axios from 'axios'
+  import { getToken } from '@/utils/auth'
 
   export default {
     // 写核心代码
@@ -187,11 +193,13 @@
     methods: {
       exportExcel(rentid) {
         axios({
+          headers: {
+            'Authorization' : getToken()
+          },
           url: `http://localhost:9999/rent/export/${rentid}`,
           method: 'get',
           responseType: 'blob'
         }).then(response => {
-          console.log(response)
           const link = document.createElement('a');
           let blob = new Blob([response.data], {type: 'application/vnd.ms-excel'});
           link.style.display = 'none';

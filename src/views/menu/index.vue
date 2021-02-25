@@ -43,35 +43,38 @@
       row-key="id"
       :tree-props="{children: 'children', hasChildren: 'hasChildren'}"
     >
-      <el-table-column prop="name" label="菜单名称" :show-overflow-tooltip="true" width="160"></el-table-column>
-      <el-table-column prop="icon" label="图标" align="center" width="100">
+      <el-table-column prop="name" label="菜单名称" align="center" :show-overflow-tooltip="true"></el-table-column>
+      <el-table-column prop="icon" label="图标" align="center">
         <template slot-scope="scope">
           <svg-icon :icon-class="scope.row.icon" />
         </template>
       </el-table-column>
-      <el-table-column prop="component" label="组件路径" :show-overflow-tooltip="true"></el-table-column>
-      <el-table-column prop="status" label="状态" width="80">
+      <el-table-column prop="component" label="组件路径" align="center" :show-overflow-tooltip="true"></el-table-column>
+      <el-table-column prop="status" align="center" label="状态">
         <template slot-scope="scope">
           {{ scope.row.status == 1 ? "正常" : "停用" }}
         </template>
       </el-table-column>
-      <el-table-column label="操作" width="250" align="center">
+      <el-table-column label="操作" width="250" align="center" class-name="small-padding fixed-width">
         <template slot-scope="scope">
           <el-button
-            type="primary"
+            type="text"
             size="mini"
+            icon="el-icon-edit"
             @click="handleUpdate(scope.row)"
           >修改</el-button>
 
           <el-button
-            type="danger"
+            type="text"
             size="mini"
+            icon="el-icon-plus"
             @click="handleAdd(scope.row)"
           >新增</el-button>
 
           <el-button
-            type="danger"
+            type="text"
             size="mini"
+            icon="el-icon-delete"
             @click="handleDelete(scope.row)"
           >删除</el-button>
         </template>

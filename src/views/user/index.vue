@@ -1,5 +1,6 @@
 <template>
   <div class="app-container">
+    <el-divider content-position="left"><span>查询条件</span></el-divider>
     <el-form :model="userQuery" ref="userQuery" :inline="true">
       <el-form-item label="用户名称" prop="loginname">
         <el-input

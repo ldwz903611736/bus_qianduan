@@ -63,5 +63,24 @@ export default {
       method: 'put',
       data: data
     })
+  },
+
+  getUserProfile() {
+    return request({
+      url: `/user/profile`,
+      method: 'get'
+    })
+  },
+
+  updateUserPwd(oldPassword, newPassword) {
+    const data = {
+      oldPassword,
+      newPassword
+    }
+    return request({
+      url: `/user/updatePwd`,
+      method: 'put',
+      params: data
+    })
   }
 }

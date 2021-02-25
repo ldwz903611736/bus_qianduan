@@ -1,5 +1,6 @@
 <template>
   <div class="app-container">
+    <el-divider content-position="left"><span>查询条件</span></el-divider>
     <el-form :model="roleQuery" ref="roleQuery" :inline="true">
       <el-form-item label="角色名称" prop="rolename">
         <el-input
@@ -41,7 +42,6 @@
           icon="el-icon-plus"
           size="mini"
           @click="handleAdd"
-          v-hasPermi="['system:role:add']"
         >新增</el-button>
       </el-col>
       <el-col :span="1.5">
@@ -50,16 +50,15 @@
           plain
           icon="el-icon-download"
           size="mini"
-          @click="handleExport"
-          v-hasPermi="['system:role:export']"
+          @click="exportExcel"
         >导出</el-button>
       </el-col>
     </el-row>
 
     <el-table :data="roleList">
-      <el-table-column label="角色编号" prop="roleid" width="120" />
-      <el-table-column label="角色名称" prop="rolename" :show-overflow-tooltip="true" width="150" />
-      <el-table-column label="角色描述" prop="roledesc" :show-overflow-tooltip="true" width="150" />
+      <el-table-column label="角色编号" align="center" prop="roleid" />
+      <el-table-column label="角色名称" align="center" prop="rolename"/>
+      <el-table-column label="角色描述" align="center" prop="roledesc" />
       <el-table-column label="状态" align="center" width="100">
         <template slot-scope="scope">
           <el-switch
@@ -77,14 +76,12 @@
             type="text"
             icon="el-icon-edit"
             @click="handleUpdate(scope.row)"
-            v-hasPermi="['system:role:edit']"
           >修改</el-button>
           <el-button
             size="mini"
             type="text"
             icon="el-icon-delete"
             @click="handleDelete(scope.row)"
-            v-hasPermi="['system:role:remove']"
           >删除</el-button>
         </template>
       </el-table-column>
@@ -137,6 +134,8 @@
 
   import role from '@/api/role'
   import menu from '../../api/menu'
+  import axios from 'axios'
+  import { getToken } from '@/utils/auth'
 
   export default {
     data() {
@@ -320,6 +319,40 @@
       // 表单重置
       reset() {
         this.form = {}
+      },
+      exportExcel() {
+        this.$confirm("是否确认导出所有操作日志数据项", "警告", {
+          confirmButtonText: "确定",
+          cancelButtonText: "取消",
+          type: "warning"
+        }).then(() => {
+          axios({
+            headers: {
+              'Authorization' : getToken()
+            },
+            url: `http://localhost:9999/role/export`,
+            method: 'post',
+            data: this.roleQuery,
+            responseType: 'blob'
+          }).then(response => {
+            if (response.data.code >= 3001) {
+              this.$message({
+                type: 'danger',
+                message: response.data.message
+              })
+            } else {
+              const link = document.createElement('a');
+              let blob = new Blob([response.data], {type: 'application/vnd.ms-excel'});
+              link.style.display = 'none';
+              link.href = URL.createObjectURL(blob);
+
+              link.setAttribute('download', '角色' + '.xlsx');
+              document.body.appendChild(link);
+              link.click();
+              document.body.removeChild(link);
+            }
+          })
+        })
       },
     }
   }

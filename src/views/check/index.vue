@@ -53,7 +53,7 @@
 
     </el-form>
 
-    <el-button type="danger" size="mini" @click="removeBatch()">批量删除</el-button>
+    <el-button type="danger" size="mini" plain icon="el-icon-delete" :disabled="multiple" @click="removeBatch()">批量删除</el-button>
 
     <el-table
       ref="multipleTable"
@@ -68,49 +68,52 @@
         width="55">
       </el-table-column>
 
-      <el-table-column prop="checkid" label="检查单号" width="200" fixed/>
+      <el-table-column prop="checkid" label="检查单号" align="center" width="200" fixed/>
 
-      <el-table-column prop="rentid" label="出租单号" width="220"/>
+      <el-table-column prop="rentid" label="出租单号" align="center" width="220"/>
 
-      <el-table-column prop="problem" label="存在问题" width="120"/>
+      <el-table-column prop="problem" label="存在问题" align="center" width="120"/>
 
-      <el-table-column prop="checkdesc" label="问题描述" width="200"/>
+      <el-table-column prop="checkdesc" label="问题描述" align="center" width="200"/>
 
-      <el-table-column prop="paymoney" label="赔付金额"/>
+      <el-table-column prop="paymoney" align="center" label="赔付金额"/>
 
-      <el-table-column prop="opername" label="操作员"/>
+      <el-table-column prop="opername" align="center" label="操作员" width="95px"/>
 
-      <el-table-column label="检查时间" width="170">
+      <el-table-column label="检查时间" align="center" width="170">
         <template slot-scope="scope">
           {{ scope.row.checkdate | formatDate }}
         </template>
       </el-table-column>
 
-      <el-table-column label="录入时间" width="170">
+      <el-table-column label="录入时间" align="center" width="170">
         <template slot-scope="scope">
           {{ scope.row.createtime | formatDate }}
         </template>
       </el-table-column>
 
-      <el-table-column label="操作" width="250" fixed="right">
+      <el-table-column label="操作" width="250" align="center" fixed="right">
         <template slot-scope="scope">
           <el-button
-            type="primary"
+            type="text"
             size="mini"
+            icon="el-icon-edit"
             @click="edit(scope.row.checkid)"
           >编辑</el-button>
 
           <el-button
-            type="danger"
+            type="text"
             size="mini"
+            icon="el-icon-delete"
             @click="removeDataById(scope.row.checkid)"
           >删除</el-button>
 
           <el-button
-            type="success"
+            type="text"
             size="mini"
+            icon="el-icon-download"
             @click="exportExcel(scope.row.checkid)"
-          >导出出租单</el-button>
+          >导出检查单</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -159,6 +162,7 @@
   // 引入调用的相关api下的js文件
   import check from '@/api/check'
   import axios from 'axios'
+  import { getToken } from '@/utils/auth'
 
   export default {
     // 写核心代码
@@ -172,7 +176,8 @@
         form: {},
         dialogVisible: false,
         tableChecked: [], // 批量删除的数据
-        title: '修改检查单' // 对话框显示添加用户或修改用户
+        title: '修改检查单', // 对话框显示添加用户或修改用户
+        multiple: true
       }
     },
     created() {
@@ -181,20 +186,29 @@
     methods: {
       exportExcel(checkid) {
         axios({
+          headers: {
+            'Authorization' : getToken()
+          },
           url: `http://localhost:9999/check/export/${checkid}`,
           method: 'get',
           responseType: 'blob'
         }).then(response => {
-          console.log(response)
-          const link = document.createElement('a');
-          let blob = new Blob([response.data], {type: 'application/vnd.ms-excel'});
-          link.style.display = 'none';
-          link.href = URL.createObjectURL(blob);
+          if (response.data.code >= 3001) {
+            this.$message({
+              type: 'danger',
+              message: response.data.message
+            })
+          } else {
+            const link = document.createElement('a');
+            let blob = new Blob([response.data], {type: 'application/vnd.ms-excel'});
+            link.style.display = 'none';
+            link.href = URL.createObjectURL(blob);
 
-          link.setAttribute('download', '检查单信息' + '.xlsx');
-          document.body.appendChild(link);
-          link.click();
-          document.body.removeChild(link);
+            link.setAttribute('download', '检查单信息' + '.xlsx');
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+          }
         })
       },
       getList(page = 1) {
@@ -261,6 +275,7 @@
       },
       handleSelectionChange(val) {
         this.tableChecked = val;
+        this.multiple = !val.length;
       },
       // 编辑
       edit(id) {

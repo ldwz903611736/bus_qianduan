@@ -32,15 +32,15 @@
           </el-form-item>
         </el-col>
         <el-col :span="6">
-          <el-button type="primary" size="mini" @click="getList()">查询</el-button>
-          <el-button type="default" size="mini" @click="resetData()">清空</el-button>
+          <el-button type="primary" size="mini" icon="el-icon-search" @click="getList()">搜索</el-button>
+          <el-button type="default" size="mini" icon="el-icon-refresh" @click="resetData()">重置</el-button>
         </el-col>
       </el-row>
 
     </el-form>
 
-    <el-button type="primary" size="mini" @click="add()">添加</el-button>
-    <el-button type="danger" size="mini" @click="removeBatch()">批量删除</el-button>
+    <el-button type="primary" plain size="mini" icon="el-icon-plus" @click="add()">新增</el-button>
+    <el-button type="danger" plain size="mini" icon="el-icon-delete" :disabled="mutiple" @click="removeBatch()">批量删除</el-button>
 
     <el-table
       ref="multipleTable"
@@ -55,27 +55,27 @@
         width="55">
       </el-table-column>
 
-      <el-table-column prop="carnumber" label="车牌号"/>
+      <el-table-column prop="carnumber" align="center" label="车牌号"/>
 
-      <el-table-column prop="cartype" label="车辆类型"/>
+      <el-table-column prop="cartype" align="center" label="车辆类型"/>
 
-      <el-table-column prop="color" label="车辆颜色"/>
+      <el-table-column prop="color" align="center" label="车辆颜色"/>
 
-      <el-table-column prop="price" label="车辆价格"/>
+      <el-table-column prop="price" align="center" label="车辆价格"/>
 
-      <el-table-column prop="rentprice" label="出租价格"/>
+      <el-table-column prop="rentprice" align="center" label="出租价格"/>
 
-      <el-table-column prop="deposit" label="出租押金"/>
+      <el-table-column prop="deposit" align="center" label="出租押金"/>
 
-      <el-table-column label="出租状态" width="50">
+      <el-table-column label="出租状态" align="center" width="50">
         <template slot-scope="scope">
           {{ scope.row.isrenting === 1 ? '在租' : '未租'}}
         </template>
       </el-table-column>
 
-      <el-table-column prop="description" label="车辆描述"/>
+      <el-table-column prop="description" align="center" label="车辆描述"/>
 
-      <el-table-column label="缩略图">
+      <el-table-column align="center" label="缩略图">
         <template slot-scope="scope">
           <el-popover placement="top-start" title="" trigger="hover">
             <img :src="scope.row.carimg" alt="" style="width: 200px;height: 150px">
@@ -84,23 +84,25 @@
         </template>
       </el-table-column>
 
-      <el-table-column label="录入时间" width="200">
+      <el-table-column label="录入时间" align="center" width="200">
         <template slot-scope="scope">
           {{ scope.row.createtime | formatDate }}
         </template>
       </el-table-column>
 
-      <el-table-column label="操作" width="200">
+      <el-table-column label="操作" align="center" width="200">
         <template slot-scope="scope">
           <el-button
-            type="primary"
+            type="text"
             size="mini"
+            icon="el-icon-edit"
             @click="edit(scope.row.carnumber)"
           >编辑</el-button>
 
           <el-button
-            type="danger"
+            type="text"
             size="mini"
+            icon="el-icon-delete"
             @click="removeDataById(scope.row.carnumber)"
           >删除</el-button>
         </template>
@@ -116,7 +118,7 @@
       @current-change="getList"
     />
 
-    <!-- 添加或修改对话框 -->
+    <!-- 新增或修改对话框 -->
     <el-dialog :title="title" :visible.sync="dialogVisible" width="600px" append-to-body>
       <el-form ref="form" :model="form" label-width="80px">
         <el-row>
@@ -201,8 +203,9 @@
         form: {},
         dialogVisible: false,
         tableChecked: [], // 批量删除的数据
-        title: '', // 对话框显示添加用户或修改用户
-        imageUrl: '' // 图片地址
+        title: '', // 对话框显示新增用户或修改用户
+        imageUrl: '', // 图片地址
+        mutiple: true
       }
     },
     created() {
@@ -255,29 +258,35 @@
       },
       removeBatch() {
         var ids = this.tableChecked.map(item => item.carnumber)
-        car.removeBatch(ids).then(response => {
-          // 删除成功
-          // 提示成功信息
-          this.$message({
-            type: 'success',
-            message: '删除成功!'
-          })
-          // 重新刷新列表
-          this.getList()
-        })
-          .catch(() => {
+        this.$confirm("是否删除编号为" + ids + "的数据项", "警告", {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+        }).then(() => {
+          car.removeBatch(ids).then(response => {
+            // 删除成功
+            // 提示成功信息
             this.$message({
-              type: 'info',
-              message: '已取消删除'
+              type: 'success',
+              message: '删除成功!'
             })
+            // 重新刷新列表
+            this.getList()
           })
+            .catch(() => {
+              this.$message({
+                type: 'info',
+                message: '已取消删除'
+              })
+            })
+        })
       },
       handleSelectionChange(val) {
         this.tableChecked = val;
+        this.mutiple = !val.length;
       },
-      // 添加
+      // 新增
       add() {
-        this.title = '添加车辆'
+        this.title = '新增车辆'
         this.dialogVisible = true
       },
       // 编辑
@@ -296,7 +305,7 @@
         this.resetData()
       },
       submitForm() {
-        if (this.title == '添加车辆' ) {
+        if (this.title == '新增车辆' ) {
           car.add(this.form).then(response => {
             // 提示成功信息
             this.$message({
@@ -312,7 +321,7 @@
               // 提示成功信息
               this.$message({
                 type: 'danger',
-                message: '添加失败!'
+                message: '新增失败!'
               })
               // 表单信息清空
               this.resetData()

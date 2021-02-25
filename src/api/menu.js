@@ -41,6 +41,13 @@ export default {
       url: '/menu/roleMenuTreeselect/' + roleId,
       method: 'get'
     })
-  }
+  },
 
+  // 获取当前用户的菜单
+  getCurrentUserMenu() {
+    return request({
+      url: 'menu/currentUser',
+      method: 'get'
+    })
+  }
 }

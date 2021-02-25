@@ -25,28 +25,28 @@
       style="width: 100%">
     >
 
-      <el-table-column prop="carnumber" label="车牌号"/>
+      <el-table-column prop="carnumber" align="center" label="车牌号"/>
 
-      <el-table-column prop="cartype" label="车辆类型"/>
+      <el-table-column prop="cartype" align="center" label="车辆类型"/>
 
-      <el-table-column prop="color" label="车辆颜色"/>
+      <el-table-column prop="color" align="center" label="车辆颜色"/>
 
-      <el-table-column prop="price" label="车辆价格"/>
+      <el-table-column prop="price" align="center" label="车辆价格"/>
 
-      <el-table-column prop="rentprice" label="出租价格"/>
+      <el-table-column prop="rentprice" align="center" label="出租价格"/>
 
-      <el-table-column prop="deposit" label="出租押金"/>
+      <el-table-column prop="deposit" align="center" label="出租押金"/>
 
-      <el-table-column label="出租状态" width="50">
+      <el-table-column label="出租状态" align="center" width="50">
         <template slot-scope="scope">
           {{ scope.row.isrenting === 1 ? '在租' : '未租'}}
         </template>
       </el-table-column>
 
-      <el-table-column prop="description" label="车辆描述"/>
+      <el-table-column prop="description" align="center" label="车辆描述"/>
 
 
-      <el-table-column label="图片" width="50%">
+      <el-table-column label="图片" align="center" width="50%">
         <template slot-scope="scope">
           <el-popover placement="top-start" title="" trigger="hover">
             <img :src="scope.row.carimg" alt="" style="width: 200px;height: 150px">
@@ -55,23 +55,25 @@
         </template>
       </el-table-column>
 
-      <el-table-column label="录入时间" width="200">
+      <el-table-column label="录入时间" align="center" width="200">
         <template slot-scope="scope">
           {{ scope.row.createtime | formatDate }}
         </template>
       </el-table-column>
 
-      <el-table-column label="操作" width="200">
+      <el-table-column label="操作" align="center" width="200">
         <template slot-scope="scope">
           <el-button
-            type="primary"
+            type="text"
             size="mini"
+            icon="el-icon-edit"
             @click="rent(scope.row.carnumber)"
           >出租汽车</el-button>
 
           <el-button
-            type="info"
+            type="text"
             size="mini"
+            icon="el-icon-view"
             @click="removeDataById(scope.row.carnumber)"
           >查看大图</el-button>
         </template>
