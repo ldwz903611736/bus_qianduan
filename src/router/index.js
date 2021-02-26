@@ -62,7 +62,7 @@ export const constantRoutes = [
     path: '/system',
     component: Layout,
     name: '系统管理',
-    meta: { title: '系统管理', icon: 'el-icon-setting' },
+    meta: { title: '系统管理', icon: 'system' },
     children: [
       {
         path: '/user/index',
@@ -108,7 +108,7 @@ export const constantRoutes = [
     path: '/base',
     component: Layout,
     name: '基础管理',
-    meta: { title: '基础管理', icon: 'el-icon-setting' },
+    meta: { title: '基础管理', icon: 'system' },
     children: [
       {
         path: '/customer/index',
@@ -120,7 +120,7 @@ export const constantRoutes = [
         path: '/car/index',
         name: '车辆管理',
         component: () => import('@/views/car/index'),
-        meta: { title: '车辆管理', icon: 'tree' },
+        meta: { title: '车辆管理', icon: 'car' },
       }
     ]
   },
@@ -128,31 +128,31 @@ export const constantRoutes = [
     path: '/business',
     component: Layout,
     name: '业务管理',
-    meta: { title: '业务管理', icon: 'el-icon-s-help' },
+    meta: { title: '业务管理', icon: 'system' },
     children: [
       {
         path: '/carRent/index',
         name: '汽车出租',
         component: () => import('@/views/carRent/index'),
-        meta: { title: '汽车出租', icon: 'table' },
+        meta: { title: '汽车出租', icon: 'chuzu' },
       },
       {
         path: '/rentAgreement/index',
         name: '出租单管理',
         component: () => import('@/views/rentAgreement/index'),
-        meta: { title: '出租单管理', icon: 'tree' },
+        meta: { title: '出租单管理', icon: 'dan' },
       },
       {
         path: '/addCar/index',
         name: '汽车入库',
         component: () => import('@/views/addCar/index'),
-        meta: { title: '汽车入库', icon: 'tree' },
+        meta: { title: '汽车入库', icon: 'ruku' },
       },
       {
         path: '/check/index',
         name: '检查单管理',
         component: () => import('@/views/check/index'),
-        meta: { title: '检查单管理', icon: 'tree' },
+        meta: { title: '检查单管理', icon: 'dan' },
       },
     ]
   },
@@ -160,31 +160,31 @@ export const constantRoutes = [
     path: '/stat',
     component: Layout,
     name: '统计分析',
-    meta: { title: '统计分析', icon: 'el-icon-s-help' },
+    meta: { title: '统计分析', icon: 'fenxi' },
     children: [
       {
         path: '/customerRegion/index',
         name: '客户地区统计',
         component: () => import('@/views/customerRegion/index'),
-        meta: { title: '客户地区统计', icon: 'table' },
+        meta: { title: '客户地区统计', icon: 'bingtu' },
       },
       {
         path: '/customerRegionSex/index',
         name: '客户地区性别统计',
         component: () => import('@/views/customerRegionSex/index'),
-        meta: { title: '客户地区性别统计', icon: 'tree' },
+        meta: { title: '客户地区性别统计', icon: 'bingtu' },
       },
       {
         path: '/opernameYearGrade/index',
         name: '业务员年度销售额',
         component: () => import('@/views/opernameYearGrade/index'),
-        meta: { title: '业务员年度销售额', icon: 'tree' },
+        meta: { title: '业务员年度销售额', icon: 'zhuzhuangtu' },
       },
       {
         path: '/companyYearGrade/index',
         name: '公司年度月份销售额',
         component: () => import('@/views/companyYearGrade/index'),
-        meta: { title: '公司年度月份销售额', icon: 'tree' },
+        meta: { title: '公司年度月份销售额', icon: 'zhexiantu' },
       }
     ]
   },

@@ -8,8 +8,11 @@
     </el-form-item>
     <el-form-item label="性别">
       <el-radio-group v-model="user.sex">
-        <el-radio label="0">男</el-radio>
-        <el-radio label="1">女</el-radio>
+        <el-radio
+          v-for="dict in sexOptions"
+          :key="dict.value"
+          :label="dict.value"
+        >{{dict.label}}</el-radio>
       </el-radio-group>
     </el-form-item>
     <el-form-item>
@@ -52,7 +55,17 @@ export default {
             trigger: "blur"
           }
         ]
-      }
+      },
+      sexOptions: [
+        {
+          value: 0,
+          label: '女'
+        },
+        {
+          value: 1,
+          label: '男'
+        }
+      ]
     };
   },
   methods: {
@@ -70,7 +83,7 @@ export default {
     },
     close() {
       this.$store.dispatch("tagsView/delView", this.$route);
-      this.$router.push({ path: "/index" });
+      this.$router.push({ path: "/dashboard" });
     }
   }
 };

@@ -8,10 +8,10 @@
             <el-input size="small" v-model="busCarQuery.carnumber" placeholder="请输入车牌号"/>
           </el-form-item>
         </el-col>
-        <el-col :span="4">
+        <el-col :span="5">
           <el-form-item>
-            <el-button type="primary" size="mini" @click="getList()">查询</el-button>
-            <el-button type="default" size="mini" @click="resetData()">清空</el-button>
+            <el-button type="primary" icon="el-icon-search" size="mini" @click="getList()">搜索</el-button>
+            <el-button type="default" icon="el-icon-refresh" size="mini" @click="resetData()">重置</el-button>
           </el-form-item>
         </el-col>
       </el-row>
@@ -22,7 +22,9 @@
     <el-table
       :data="list"
       border
-      style="width: 100%">
+      style="width: 100%"
+      v-loading="loading"
+    >
     >
 
       <el-table-column prop="carnumber" align="center" label="车牌号"/>
@@ -80,7 +82,7 @@
       </el-table-column>
     </el-table>
 
-    <el-pagination
+    <el-pagination class="pull-right"
       :current-page="page"
       :page-size="limit"
       :total="total"
@@ -178,6 +180,7 @@
     // 写核心代码
     data() {
       return {
+        loading: true,
         list: null, // 查询结果
         page: 1, // 当前页
         limit: 5, // 每页记录数
@@ -193,24 +196,26 @@
     },
     methods: {
       getNotRent(page = 1) {
+        this.loading = true
         this.page = page
         car.getNotRent(this.page, this.limit)
           .then(response => {
             this.list = response.data.rows
             this.total = response.data.total
-            console.log(this.list)
+            this.loading = false
           })
           .catch(error => {
             console.log(error)
           })
       },
       getList(page = 1) {
+        this.loading = true
         this.page = page
         car.list(this.page, this.limit, this.busCarQuery)
           .then(response => {
             this.list = response.data.rows
             this.total = response.data.total
-            console.log(this.list)
+            this.loading = false
           })
           .catch(error => {
             console.log(error)

@@ -44,11 +44,20 @@
 
     </el-form>
 
-    <el-button type="primary" plain size="mini" icon="el-icon-plus" @click="add()">新增</el-button>
-    <el-button type="warning" plain size="mini" icon="el-icon-download" @click="exportExcel()">导出</el-button>
-    <el-button type="danger" plain size="mini" icon="el-icon-delete" :disabled="mutiple" @click="removeBatch()">批量删除</el-button>
+    <el-row :gutter="10" class="mb8">
+      <el-col :span="1.5">
+        <el-button type="primary" plain size="mini" icon="el-icon-plus" @click="add()">新增</el-button>
+      </el-col>
+      <el-col :span="1.5">
+        <el-button type="warning" plain size="mini" icon="el-icon-download" @click="exportExcel()">导出</el-button>
+      </el-col>
+      <el-col :span="1.5">
+        <el-button type="danger" plain size="mini" icon="el-icon-delete" :disabled="mutiple" @click="removeBatch()">批量删除</el-button>
+      </el-col>
+    </el-row>
 
     <el-table
+      v-loading="loading"
       ref="multipleTable"
       :data="list"
       tooltip-effect="dark"
@@ -93,7 +102,7 @@
             @click="edit(scope.row.identity)"
           >编辑</el-button>
 
-          <el-button
+          <el-button class="pul-left"
             type="text"
             size="mini"
             icon="el-icon-delete"
@@ -103,7 +112,7 @@
       </el-table-column>
     </el-table>
 
-    <el-pagination
+    <el-pagination class="pull-right"
       :current-page="page"
       :page-size="limit"
       :total="total"
@@ -176,6 +185,7 @@
     // 写核心代码
     data() {
       return {
+        loading: true,
         list: null, // 查询结果
         page: 1, // 当前页
         limit: 5, // 每页记录数
@@ -204,39 +214,47 @@
     },
     methods: {
       exportExcel() {
-        axios({
-          headers: {
-            'Authorization' : getToken()
-          },
-          url: `http://localhost:9999/customer/export`,
-          method: 'post',
-          data: this.busCustomerQuery,
-          responseType: 'blob'
-        }).then(response => {
-          if (response.data.code >= 3001) {
-            this.$message({
-              type: 'danger',
-              message: response.data.message
-            })
-          } else {
-            const link = document.createElement('a');
-            let blob = new Blob([response.data], {type: 'application/vnd.ms-excel'});
-            link.style.display = 'none';
-            link.href = URL.createObjectURL(blob);
+        this.$confirm("是否确认导出所有客户信息?", "警告", {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        }).then(() => {
+          axios({
+            headers: {
+              'Authorization' : getToken()
+            },
+            url: `http://localhost:9999/customer/export`,
+            method: 'post',
+            data: this.busCustomerQuery,
+            responseType: 'blob'
+          }).then(response => {
+            if (response.data.code >= 3001) {
+              this.$message({
+                type: 'danger',
+                message: response.data.message
+              })
+            } else {
+              const link = document.createElement('a');
+              let blob = new Blob([response.data], {type: 'application/vnd.ms-excel'});
+              link.style.display = 'none';
+              link.href = URL.createObjectURL(blob);
 
-            link.setAttribute('download', '客户信息' + '.xlsx');
-            document.body.appendChild(link);
-            link.click();
-            document.body.removeChild(link);
-          }
+              link.setAttribute('download', '客户信息' + '.xlsx');
+              document.body.appendChild(link);
+              link.click();
+              document.body.removeChild(link);
+            }
+          })
         })
       },
       getList(page = 1) {
+        this.loading = true
         this.page = page
         customer.list(this.page, this.limit, this.busCustomerQuery)
           .then(response => {
             this.list = response.data.rows
             this.total = response.data.total
+            this.loading = false
           })
           .catch(error => {
             console.log(error)

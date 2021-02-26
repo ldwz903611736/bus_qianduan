@@ -55,7 +55,7 @@
       </el-col>
     </el-row>
 
-    <el-table :data="roleList">
+    <el-table :data="roleList" v-loading="loading">
       <el-table-column label="角色编号" align="center" prop="roleid" />
       <el-table-column label="角色名称" align="center" prop="rolename"/>
       <el-table-column label="角色描述" align="center" prop="roledesc" />
@@ -86,6 +86,15 @@
         </template>
       </el-table-column>
     </el-table>
+
+    <el-pagination class="pull-right"
+         :current-page="page"
+         :page-size="count"
+         :total="total"
+         background
+         layout="prev, pager, next"
+         @current-change="getList"
+    />
 
     <!-- 添加或修改角色配置对话框 -->
     <el-dialog :title="title" :visible.sync="open" width="500px" append-to-body>
@@ -140,8 +149,10 @@
   export default {
     data() {
       return {
+        loading: true,
         page: 1,
         count: 5,
+        total: 0,
         open: false,
         roleList: [],
         // 选中数组
@@ -174,9 +185,13 @@
     },
     methods: {
       /** 查询操作 */
-      getList() {
+      getList(page = 1) {
+        this.loading = true
+        this.page = page
         role.list(this.page, this.count, this.roleQuery).then(response => {
+          this.total = response.data.total
           this.roleList = response.data.rows
+          this.loading = false
         })
       },
       /** 搜索按钮操作 */
@@ -321,7 +336,7 @@
         this.form = {}
       },
       exportExcel() {
-        this.$confirm("是否确认导出所有操作日志数据项", "警告", {
+        this.$confirm("是否确认导出所有操作角色数据项?", "警告", {
           confirmButtonText: "确定",
           cancelButtonText: "取消",
           type: "warning"

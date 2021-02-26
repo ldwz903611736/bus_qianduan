@@ -84,6 +84,7 @@
         tooltip-effect="dark"
         style="width: 100%"
         @selection-change="handleSelectionChange"
+        v-loading="loading"
       >
 
         <el-table-column
@@ -133,7 +134,7 @@
         </el-table-column>
        </el-table>
 
-       <el-pagination
+       <el-pagination class="pull-right"
         :current-page="page"
         :page-size="limit"
         :total="total"
@@ -197,6 +198,7 @@
   export default {
     data() {
       return {
+        loading: true,
         open: false,
         list: null, // 查询结果
         page: 1, // 当前页
@@ -240,10 +242,12 @@
     },
     methods: {
       getList(page = 1) {
+        this.loading = true
         this.page = page
         operLog.getList(this.page, this.limit, this.operLogQuery).then(response => {
             this.list = response.data.rows
             this.total = response.data.total
+            this.loading = false
         })
       },
       resetData() {
@@ -251,7 +255,7 @@
         this.getList()
       },
       exportExcel() {
-        this.$confirm("是否确认导出所有操作日志数据项", "警告", {
+        this.$confirm("是否确认导出所有操作日志数据项?", "警告", {
           confirmButtonText: "确定",
           cancelButtonText: "取消",
           type: "warning"

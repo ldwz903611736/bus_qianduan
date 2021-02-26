@@ -106,6 +106,17 @@
       </el-table-column>
     </el-table>
 
+    <el-pagination class="pull-right"
+       :current-page="page"
+       :page-size="count"
+       :total="total"
+       background
+       layout="prev, pager, next"
+       @current-change="getList"
+    />
+
+
+
     <!-- 添加或修改参数配置对话框 -->
     <el-dialog :title="title" :visible.sync="open" width="600px" append-to-body>
       <el-form ref="form" :model="form" label-width="80px">
@@ -205,8 +216,10 @@
   export default {
     data() {
       return {
+        loading: true,
         page: 1,
         count: 5,
+        total: 0,
         userQuery: {},
         open: false,
         form: {},
@@ -250,9 +263,13 @@
     },
     methods: {
       /** 查询用户 */
-      getList() {
+      getList(page = 1) {
+        this.loading = true
+        this.page = page
         user.list(this.page, this.count, this.userQuery).then(response => {
+          this.total = response.data.total
           this.userList = response.data.rows
+          this.loading = false
         })
       },
       /** 重置 */

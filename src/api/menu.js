@@ -49,5 +49,13 @@ export default {
       url: 'menu/currentUser',
       method: 'get'
     })
+  },
+
+  // 删除菜单
+  removeById(id) {
+    return request({
+      url: `/menu/${id}`,
+      method: 'delete'
+    })
   }
 }

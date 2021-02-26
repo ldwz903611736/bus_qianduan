@@ -49,8 +49,8 @@
           </el-form-item>
         </el-col>
         <el-col :span="6">
-          <el-button type="primary" size="mini" @click="getList()">查询</el-button>
-          <el-button type="default" size="mini" @click="resetData()">清空</el-button>
+          <el-button type="primary" icon="el-icon-search" size="mini" @click="getList()">搜索</el-button>
+          <el-button type="default" icon="el-icon-refresh" size="mini" @click="resetData()">重置</el-button>
         </el-col>
       </el-row>
 
@@ -60,6 +60,7 @@
       :data="list"
       border
       style="width: 100%"
+      v-loading="loading"
     >
 
       <el-table-column prop="rentid" label="出租单号" align="center" fixed width="215"/>
@@ -125,7 +126,7 @@
       </el-table-column>
     </el-table>
 
-    <el-pagination
+    <el-pagination class="pull-right"
       :current-page="page"
       :page-size="limit"
       :total="total"
@@ -176,6 +177,7 @@
     // 写核心代码
     data() {
       return {
+        loading: true,
         list: null, // 查询结果
         page: 1, // 当前页
         limit: 5, // 每页记录数
@@ -192,31 +194,39 @@
     },
     methods: {
       exportExcel(rentid) {
-        axios({
-          headers: {
-            'Authorization' : getToken()
-          },
-          url: `http://localhost:9999/rent/export/${rentid}`,
-          method: 'get',
-          responseType: 'blob'
-        }).then(response => {
-          const link = document.createElement('a');
-          let blob = new Blob([response.data], {type: 'application/vnd.ms-excel'});
-          link.style.display = 'none';
-          link.href = URL.createObjectURL(blob);
+        this.$confirm("是否确认导出编号为" + rentid + "的出租单信息?", "警告", {
+          confirmButtonText: '确认',
+          cancelButtonText: '取消',
+          type: 'warning'
+        }).then(() => {
+          axios({
+            headers: {
+              'Authorization' : getToken()
+            },
+            url: `http://localhost:9999/rent/export/${rentid}`,
+            method: 'get',
+            responseType: 'blob'
+          }).then(response => {
+            const link = document.createElement('a');
+            let blob = new Blob([response.data], {type: 'application/vnd.ms-excel'});
+            link.style.display = 'none';
+            link.href = URL.createObjectURL(blob);
 
-          link.setAttribute('download', '出租单信息' + '.xlsx');
-          document.body.appendChild(link);
-          link.click();
-          document.body.removeChild(link);
+            link.setAttribute('download', '出租单信息' + '.xlsx');
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+          })
         })
       },
       getList(page = 1) {
+        this.loading = true
         this.page = page
         rent.list(this.page, this.limit, this.busRentQuery)
           .then(response => {
             this.list = response.data.rows
             this.total = response.data.total
+            this.loading = false
           })
           .catch(error => {
             console.log(error)

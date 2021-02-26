@@ -8,7 +8,7 @@
           </div>
           <div>
             <div class="text-center">
-<!--              <userAvatar :user="user" />-->
+              <userAvatar :user="user" />
             </div>
             <ul class="list-group list-group-striped">
               <li class="list-group-item">
@@ -61,11 +61,12 @@
 <script>
 import userInfo from "./userInfo";
 import resetPwd from "./resetPwd";
+import userAvatar from "./userAvatar";
 import user from "@/api/user";
 
 export default {
   name: "Profile",
-  components: { userInfo, resetPwd },
+  components: { userAvatar, userInfo, resetPwd },
   data() {
     return {
       user: {},

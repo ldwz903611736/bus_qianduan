@@ -46,14 +46,18 @@
           </el-form-item>
         </el-col>
         <el-col :span="6">
-          <el-button type="primary" size="mini" @click="getList()">查询</el-button>
-          <el-button type="default" size="mini" @click="resetData()">清空</el-button>
+          <el-button type="primary" icon="el-icon-search" size="mini" @click="getList()">搜索</el-button>
+          <el-button type="default" icon="el-icon-refresh" size="mini" @click="resetData()">重置</el-button>
         </el-col>
       </el-row>
 
     </el-form>
 
-    <el-button type="danger" size="mini" plain icon="el-icon-delete" :disabled="multiple" @click="removeBatch()">批量删除</el-button>
+    <el-row :gutter="10" class="mb8">
+      <el-col :span="1.5">
+        <el-button type="danger" size="mini" plain icon="el-icon-delete" :disabled="multiple" @click="removeBatch()">批量删除</el-button>
+      </el-col>
+    </el-row>
 
     <el-table
       ref="multipleTable"
@@ -61,6 +65,7 @@
       tooltip-effect="dark"
       style="width: 100%"
       @selection-change="handleSelectionChange"
+      v-loading="loading"
     >
 
       <el-table-column
@@ -74,7 +79,7 @@
 
       <el-table-column prop="problem" label="存在问题" align="center" width="120"/>
 
-      <el-table-column prop="checkdesc" label="问题描述" align="center" width="200"/>
+      <el-table-column prop="checkdesc" label="问题描述" align="center" width="200" :show-overflow-tooltip="true"/>
 
       <el-table-column prop="paymoney" align="center" label="赔付金额"/>
 
@@ -118,7 +123,7 @@
       </el-table-column>
     </el-table>
 
-    <el-pagination
+    <el-pagination class="pull-right"
       :current-page="page"
       :page-size="limit"
       :total="total"
@@ -168,6 +173,7 @@
     // 写核心代码
     data() {
       return {
+        loading: true,
         list: null, // 查询结果
         page: 1, // 当前页
         limit: 5, // 每页记录数
@@ -185,38 +191,46 @@
     },
     methods: {
       exportExcel(checkid) {
-        axios({
-          headers: {
-            'Authorization' : getToken()
-          },
-          url: `http://localhost:9999/check/export/${checkid}`,
-          method: 'get',
-          responseType: 'blob'
-        }).then(response => {
-          if (response.data.code >= 3001) {
-            this.$message({
-              type: 'danger',
-              message: response.data.message
-            })
-          } else {
-            const link = document.createElement('a');
-            let blob = new Blob([response.data], {type: 'application/vnd.ms-excel'});
-            link.style.display = 'none';
-            link.href = URL.createObjectURL(blob);
+        this.$confirm("是否确认导出编号为" + checkid + "的检查单信息?", "警告", {
+          confirmButtonText: '确认',
+          cancelButtonText: '取消',
+          type: 'warning'
+        }).then(() => {
+          axios({
+            headers: {
+              'Authorization' : getToken()
+            },
+            url: `http://localhost:9999/check/export/${checkid}`,
+            method: 'get',
+            responseType: 'blob'
+          }).then(response => {
+            if (response.data.code >= 3001) {
+              this.$message({
+                type: 'danger',
+                message: response.data.message
+              })
+            } else {
+              const link = document.createElement('a');
+              let blob = new Blob([response.data], {type: 'application/vnd.ms-excel'});
+              link.style.display = 'none';
+              link.href = URL.createObjectURL(blob);
 
-            link.setAttribute('download', '检查单信息' + '.xlsx');
-            document.body.appendChild(link);
-            link.click();
-            document.body.removeChild(link);
-          }
+              link.setAttribute('download', '检查单信息' + '.xlsx');
+              document.body.appendChild(link);
+              link.click();
+              document.body.removeChild(link);
+            }
+          })
         })
       },
       getList(page = 1) {
+        this.loading = true
         this.page = page
         check.list(this.page, this.limit, this.busCheckQuery)
           .then(response => {
             this.list = response.data.rows
             this.total = response.data.total
+            this.loading = false
           })
           .catch(error => {
             console.log(error)

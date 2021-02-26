@@ -35,6 +35,7 @@ const actions = {
       login({ username: username.trim(), password: password }).then(response => {
         const res = response
         commit('SET_TOKEN', res.data)
+
         setToken(res.data)
         console.log(res.data)
         resolve()
@@ -53,8 +54,7 @@ const actions = {
         if (!data) {
           return reject('Verification failed, please Login again.')
         }
-
-        const { name, avatar } = data
+        const avatar = require("@/assets/images/profile.jpg")
 
         commit('SET_NAME', name)
         commit('SET_AVATAR', avatar)

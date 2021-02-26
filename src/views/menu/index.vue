@@ -41,7 +41,7 @@
     <el-table
       :data="menuList"
       row-key="id"
-      :tree-props="{children: 'children', hasChildren: 'hasChildren'}"
+      v-loading="loading"
     >
       <el-table-column prop="name" label="菜单名称" align="center" :show-overflow-tooltip="true"></el-table-column>
       <el-table-column prop="icon" label="图标" align="center">
@@ -152,6 +152,7 @@
     components: { Treeselect },
       data() {
         return {
+          loading: true,
           menuList: [],
           menuQuery: {},
           // 菜单树选项
@@ -190,8 +191,10 @@
           this.form = {}
         },
         getList() {
+          this.loading = true
           menu.list(this.menuQuery).then(response => {
             this.menuList = handleTree(response.data, "id")
+            this.loading = false
           })
         },
         /** 修改按钮操作 */
@@ -247,6 +250,22 @@
               this.getList()
             })
           }
+        },
+        handleDelete(row) {
+          this.$confirm("确定要删除此数据项吗", "警告", {
+            confirmButtonText: "确定",
+            cancelButtonText: "取消",
+            type: 'warning'
+          }).then(() => {
+            menu.removeById(row.id).then(response => {
+              this.$message({
+                type: 'success',
+                message: '删除成功！'
+              })
+              // 刷新列表
+              this.getList()
+            })
+          })
         },
         /** 转换菜单数据结构 */
         normalizer(node) {

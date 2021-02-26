@@ -39,8 +39,14 @@
 
     </el-form>
 
-    <el-button type="primary" plain size="mini" icon="el-icon-plus" @click="add()">新增</el-button>
-    <el-button type="danger" plain size="mini" icon="el-icon-delete" :disabled="mutiple" @click="removeBatch()">批量删除</el-button>
+    <el-row :gutter="10" class="mb8">
+      <el-col :span="1.5">
+        <el-button type="primary" plain size="mini" icon="el-icon-plus" @click="add()">新增</el-button>
+      </el-col>
+      <el-col :span="1.5">
+        <el-button type="danger" plain size="mini" icon="el-icon-delete" :disabled="mutiple" @click="removeBatch()">批量删除</el-button>
+      </el-col>
+    </el-row>
 
     <el-table
       ref="multipleTable"
@@ -48,6 +54,7 @@
       tooltip-effect="dark"
       style="width: 100%"
       @selection-change="handleSelectionChange"
+      v-loading="loading"
     >
 
       <el-table-column
@@ -109,7 +116,7 @@
       </el-table-column>
     </el-table>
 
-    <el-pagination
+    <el-pagination class="pull-right"
       :current-page="page"
       :page-size="limit"
       :total="total"
@@ -195,6 +202,7 @@
     // 写核心代码
     data() {
       return {
+        loading: true,
         list: null, // 查询结果
         page: 1, // 当前页
         limit: 5, // 每页记录数
@@ -213,12 +221,13 @@
     },
     methods: {
       getList(page = 1) {
+        this.loading = true
         this.page = page
         car.list(this.page, this.limit, this.busCarQuery)
           .then(response => {
             this.list = response.data.rows
             this.total = response.data.total
-            console.log(this.list)
+            this.loading = false
           })
           .catch(error => {
             console.log(error)

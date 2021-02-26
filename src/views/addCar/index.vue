@@ -13,7 +13,7 @@
           :disabled="btnDisabled"
           type="primary"
           icon="el-icon-search"
-          @click="query()">查询</el-button>
+          @click="query()">搜索</el-button>
       </el-form-item>
     </el-form>
     <el-divider content-position="center"><span>检查单表单</span></el-divider>
