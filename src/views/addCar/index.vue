@@ -10,7 +10,6 @@
       <el-form-item>
         <el-button
           size="mini"
-          :disabled="btnDisabled"
           type="primary"
           icon="el-icon-search"
           @click="query()">搜索</el-button>
@@ -102,10 +101,10 @@
             {{'出租价格: ' }} {{ this.rentInfo == {} ? ' ' : this.rentInfo.price }}
           </div>
           <div class="text item">
-            {{'起始时间: '}} {{ this.rentInfo == {} ? ' ' : this.rentInfo.begindate }}
+            {{'起始时间: '}} {{ this.rentInfo == {} ? ' ' : this.rentInfo.begindate | formatDate() }}
           </div>
           <div class="text item">
-            {{'还车时间: '}} {{ this.rentInfo == {} ? ' ' : this.rentInfo.returndate }}
+            {{'还车时间: '}} {{ this.rentInfo == {} ? ' ' : this.rentInfo.returndate | formatDate() }}
           </div>
           <div class="text item">
             {{'操作员: '}} {{ this.rentInfo == {} ? ' ' : this.rentInfo.opername }}

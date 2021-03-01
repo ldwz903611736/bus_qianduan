@@ -153,8 +153,13 @@
         <el-row>
           <el-col :span="12">
             <el-form-item label="归还状态">
-              <el-radio v-model="form.rentflag" label="1">已归还</el-radio>
-              <el-radio v-model="form.rentflag" label="0">未归还</el-radio>
+              <el-radio-group v-model="form.rentflag">
+                <el-radio
+                  v-for="dict in statusOptions"
+                  :key="dict.value"
+                  :label="dict.value"
+                >{{dict.label}}</el-radio>
+              </el-radio-group>
             </el-form-item>
           </el-col>
         </el-row>
@@ -186,7 +191,17 @@
         form: {},
         dialogVisible: false,
         tableChecked: [], // 批量删除的数据
-        title: '编辑出租单' // 对话框显示添加用户或修改用户
+        title: '编辑出租单', // 对话框显示添加用户或修改用户
+        statusOptions: [
+          {
+            value: 0,
+            label: '未归还'
+          },
+          {
+            value: 1,
+            label: '已归还'
+          }
+        ]
       }
     },
     created() {

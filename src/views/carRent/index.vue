@@ -21,7 +21,6 @@
 
     <el-table
       :data="list"
-      border
       style="width: 100%"
       v-loading="loading"
     >
@@ -71,13 +70,6 @@
             icon="el-icon-edit"
             @click="rent(scope.row.carnumber)"
           >出租汽车</el-button>
-
-          <el-button
-            type="text"
-            size="mini"
-            icon="el-icon-view"
-            @click="removeDataById(scope.row.carnumber)"
-          >查看大图</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -90,6 +82,7 @@
       layout="prev, pager, next"
       @current-change="getList"
     />
+
 
     <!-- 出租对话框 -->
     <el-dialog :title="title" :visible.sync="dialogVisible" width="600px" append-to-body>
@@ -188,7 +181,8 @@
         busCarQuery: {},
         dialogVisible: false,
         form: {},
-        title: '' // 对话框显示添加用户或修改用户
+        title: '', // 对话框显示添加用户或修改用户
+        showImg: false
       }
     },
     created() {
@@ -263,7 +257,6 @@
         this.dialogVisible = false;
         this.resetData()
       },
-
     }
   }
 </script>

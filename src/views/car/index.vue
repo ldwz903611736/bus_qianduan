@@ -125,6 +125,7 @@
       @current-change="getList"
     />
 
+
     <!-- 新增或修改对话框 -->
     <el-dialog :title="title" :visible.sync="dialogVisible" width="600px" append-to-body>
       <el-form ref="form" :model="form" label-width="80px">
@@ -176,6 +177,7 @@
             <el-upload
               class="avatar-uploader"
               :action="'http://localhost:9999/car/uploadImg/' + form.carnumber"
+              :headers="headers"
               :show-file-list="false"
               :on-success="handleAvatarSuccess"
               :before-upload="beforeAvatarUpload"
@@ -197,8 +199,16 @@
 <script>
   // 引入调用的相关api下的js文件
   import car from '@/api/car'
+  import { getToken } from '@/utils/auth'
 
   export default {
+    computed: {
+      headers() {
+        return{
+          "Authorization": '' + getToken() // 直接从本地获取token就行
+        }
+      }
+    },
     // 写核心代码
     data() {
       return {
