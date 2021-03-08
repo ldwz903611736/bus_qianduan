@@ -81,13 +81,15 @@
 
       <el-table-column prop="phone" align="center" label="手机号码"/>
 
+      <el-table-column prop="email" align="center" label="电子邮箱" width="150"/>
+
       <el-table-column label="性别" align="center" width="50">
         <template slot-scope="scope">
           {{ scope.row.sex === 0 ? '女' : '男'}}
         </template>
       </el-table-column>
 
-      <el-table-column label="录入时间" align="center" width="200">
+      <el-table-column label="录入时间" align="center" width="160">
         <template slot-scope="scope">
           {{ scope.row.createtime | formatDate }}
         </template>
@@ -163,6 +165,13 @@
                   :label="dict.value"
                 >{{dict.label}}</el-radio>
               </el-radio-group>
+            </el-form-item>
+          </el-col>
+        </el-row>
+        <el-row>
+          <el-col :span="12">
+            <el-form-item label="电子邮箱" prop="email">
+              <el-input size="small" v-model="form.email" placeholder="请输入电子邮箱" />
             </el-form-item>
           </el-col>
         </el-row>

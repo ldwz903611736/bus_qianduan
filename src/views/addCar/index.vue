@@ -159,7 +159,9 @@
       }
     },
     created() {
-
+      this.carInfo = {}
+      this.rentInfo = {}
+      this.customerInfo = {}
     },
     methods: {
       getCustomerInfo() {
@@ -194,6 +196,7 @@
           this.form.paymoney = ''
           this.form.checkdesc = ''
           this.form.paymoney = ''
+          this.form.checkdate = ''
         })
         .catch(() => {
           // 添加失败

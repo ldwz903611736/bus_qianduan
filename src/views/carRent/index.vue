@@ -130,6 +130,7 @@
                 size="small"
                 v-model="form.begindate"
                 type="date"
+                value-format="yyyy-MM-dd"
                 placeholder="选择日期">
               </el-date-picker>
             </el-form-item>
@@ -142,6 +143,7 @@
                 size="small"
                 v-model="form.returndate"
                 type="date"
+                value-format="yyyy-MM-dd"
                 placeholder="选择日期">
               </el-date-picker>
             </el-form-item>
@@ -220,7 +222,7 @@
         this.busCarQuery = {}
         this.form = {}
         // 查询所有
-        this.getList()
+        this.getNotRent()
       },
       rent(carnumber) {
         car.getById(carnumber).then(response => {

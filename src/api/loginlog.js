@@ -3,7 +3,7 @@ import request from '@/utils/request'
 export default {
   getList(page, limit, loginLogQuery) {
     return request({
-      url: `/loginlog/list/${page}/${limit}`,
+      url: `/loginLog/list/${page}/${limit}`,
       method: 'post',
       data: loginLogQuery
     })
@@ -11,7 +11,7 @@ export default {
 
   removeBatch(ids) {
     return request({
-      url: `/loginlog/removeBatch`,
+      url: `/loginLog/removeBatch`,
       method: 'delete',
       data: ids
     })
@@ -19,14 +19,14 @@ export default {
 
   clean() {
     return request({
-      url: `/loginlog/clean`,
+      url: `/loginLog/clean`,
       method: 'delete'
     })
   },
 
   export(loginLogQuery) {
     return request({
-      url: `/loginlog/clean`,
+      url: `/loginLog/clean`,
       method: 'post',
       data: loginLogQuery,
       responseType: 'blob'

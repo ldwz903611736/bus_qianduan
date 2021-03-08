@@ -38,7 +38,7 @@
             </el-date-picker>
           </el-form-item>
         </el-col>
-        <el-col :span="6">
+        <el-col :span="7">
           <el-form-item label="结束时间" prop="endTime">
             <el-date-picker
               size="small"
@@ -47,18 +47,6 @@
               placeholder="选择日期"
               value-format="yyyy-MM-dd">
             </el-date-picker>
-          </el-form-item>
-        </el-col>
-        <el-col :span="6">
-          <el-form-item label="状态" prop="status">
-            <el-select v-model="loginLogQuery.status" placeholder="状态" clearable size="small">
-              <el-option
-                v-for="dict in statusOptions"
-                :key="dict.value"
-                :label="dict.value"
-                :value="dict.value"
-              />
-            </el-select>
           </el-form-item>
         </el-col>
         <el-col :span="6">
@@ -108,7 +96,11 @@
 
         <el-table-column prop="msg" align="center" label="登录信息"/>
 
-        <el-table-column prop="loginTime" align="center" label="登录时间"/>
+        <el-table-column align="center" label="登录时间" width="180">
+          <template slot-scope="scope">
+            {{ scope.row.loginTime | formatDate()}}
+          </template>
+        </el-table-column>
 
       </el-table>
 
@@ -179,7 +171,7 @@
             headers: {
               'Authorization' : getToken()
             },
-            url: `http://localhost:9999/loginlog/export`,
+            url: `http://localhost:9999/loginLog/export`,
             method: 'post',
             data: this.loginLogQuery,
             responseType: 'blob'

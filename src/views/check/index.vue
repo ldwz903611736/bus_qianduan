@@ -31,6 +31,7 @@
               size="small"
               v-model="busCheckQuery.begintime"
               type="date"
+              value-format="yyyy-MM-dd"
               placeholder="选择日期">
             </el-date-picker>
           </el-form-item>
@@ -41,6 +42,7 @@
               size="small"
               v-model="busCheckQuery.endtime"
               type="date"
+              value-format="yyyy-MM-dd"
               placeholder="选择日期">
             </el-date-picker>
           </el-form-item>
