@@ -13,7 +13,7 @@
         <el-input
           ref="username"
           v-model="loginForm.username"
-          placeholder="账号"
+          placeholder="账号或邮箱"
           name="username"
           type="text"
           tabindex="1"
@@ -41,7 +41,13 @@
         </span>
       </el-form-item>
 
+      <el-form-item align="center" prop="userType">
+        <el-radio v-model="loginForm.userType" name="userType" value="1" label="1">系统用户</el-radio>
+        <el-radio v-model="loginForm.userType" name="userType" value="2" label="2">客户</el-radio>
+      </el-form-item>
+
       <el-button :loading="loading" type="primary" style="width:100%;margin-bottom:30px;" @click.native.prevent="handleLogin">登录</el-button>
+
     </el-form>
     <!--  底部  -->
     <div class="el-login-footer" align="center">
@@ -62,14 +68,19 @@ export default {
     const validatePassword = (rule, value, callback) => {
       callback()
     }
+    const validateUserType = (rule, value, callback) => {
+      callback()
+    }
     return {
       loginForm: {
         username: '',
-        password: ''
+        password: '',
+        userType: ''
       },
       loginRules: {
         username: [{ required: true, trigger: 'blur', validator: validateUsername }],
-        password: [{ required: true, trigger: 'blur', validator: validatePassword }]
+        password: [{ required: true, trigger: 'blur', validator: validatePassword }],
+        userType: [{ required: true, trigger: 'blur', validator: validateUserType }]
       },
       loading: false,
       passwordType: 'password',

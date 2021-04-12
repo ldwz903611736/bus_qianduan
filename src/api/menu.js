@@ -57,5 +57,13 @@ export default {
       url: `/menu/${id}`,
       method: 'delete'
     })
+  },
+
+  // 获取路由
+  getRouters() {
+    return request({
+      url: 'menu/getRouters',
+      method: 'get'
+    })
   }
 }

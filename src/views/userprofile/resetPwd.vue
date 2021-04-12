@@ -18,6 +18,7 @@
 
 <script>
 import user from "@/api/user";
+import { removeToken } from '@/utils/auth'
 
 export default {
   data() {
@@ -59,8 +60,10 @@ export default {
             response => {
               this.$message({
                 type: 'success',
-                message: '修改成功'
+                message: '修改成功,请重新登陆！'
               })
+              removeToken()
+              this.$router.push("/login")
             }
           );
         }

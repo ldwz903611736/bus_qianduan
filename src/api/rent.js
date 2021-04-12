@@ -53,6 +53,14 @@ export default {
       url: `/rent/year/list`,
       method: 'get'
     })
-  }
+  },
 
+  // 我的租赁
+  getMyRent(page, count, busRentQuery) {
+    return request({
+      url: `/rent/myRent/${page}/${count}`,
+      method: 'post',
+      data: busRentQuery
+    })
+  }
 }

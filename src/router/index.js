@@ -39,18 +39,21 @@ export const constantRoutes = [
   {
     path: '/login',
     component: () => import('@/views/login/index'),
+    name: "登录",
     hidden: true
   },
 
   {
     path: '/404',
     component: () => import('@/views/404'),
+    name: "404",
     hidden: true
   },
 
   {
     path: '/',
     component: Layout,
+    name: "首页",
     children: [{
       path: '/dashboard',
       name: '首页',
@@ -62,6 +65,7 @@ export const constantRoutes = [
     path: '/system',
     component: Layout,
     name: '系统管理',
+    alwaysShow: true,
     meta: { title: '系统管理', icon: 'system' },
     children: [
       {
@@ -81,33 +85,15 @@ export const constantRoutes = [
         name: '菜单管理',
         component: () => import('@/views/menu/index'),
         meta: { title: '菜单管理', icon: 'tree-table' },
-      },
-      {
-        path: '/log',
-        component: () => import('@/views/log/index'),
-        name: '日志管理',
-        meta: { title: '日志管理', icon: 'log' },
-        children: [
-          {
-            path: '/log/operlog',
-            name: '操作日志',
-            component: () => import('@/views/operlog/index'),
-            meta: { title: '操作日志', icon: 'form' },
-          },
-          {
-            path: '/log/logininfor',
-            name: '登录日志',
-            component: () => import('@/views/logininfor/index'),
-            meta: { title: '登录日志', icon: 'logininfor' },
-          }
-        ]
-      },
+      }
     ]
   },
   {
     path: '/base',
     component: Layout,
     name: '基础管理',
+    hidden: false,
+    alwaysShow: true,
     meta: { title: '基础管理', icon: 'system' },
     children: [
       {
@@ -128,6 +114,7 @@ export const constantRoutes = [
     path: '/business',
     component: Layout,
     name: '业务管理',
+    alwaysShow: true,
     meta: { title: '业务管理', icon: 'system' },
     children: [
       {
@@ -160,6 +147,7 @@ export const constantRoutes = [
     path: '/stat',
     component: Layout,
     name: '统计分析',
+    alwaysShow: true,
     meta: { title: '统计分析', icon: 'fenxi' },
     children: [
       {
@@ -192,8 +180,15 @@ export const constantRoutes = [
     path: '/monitor',
     component: Layout,
     name: '系统监控',
+    alwaysShow: true,
     meta: { title: '系统监控', icon: 'monitor' },
     children: [
+      {
+        path: '/monitor/task',
+        name: '定时任务',
+        component: () => import('@/views/task/index'),
+        meta: { title: '定时任务', icon: 'task' },
+      },
       {
         path: '/monitor/druid',
         name: '数据监控',
@@ -203,9 +198,31 @@ export const constantRoutes = [
     ]
   },
   {
+    path: '/log',
+    component: Layout,
+    name: '日志管理',
+    alwaysShow: true,
+    meta: { title: '日志管理', icon: 'log' },
+    children: [
+      {
+        path: '/log/operlog',
+        name: '操作日志',
+        component: () => import('@/views/operlog/index'),
+        meta: { title: '操作日志', icon: 'form' },
+      },
+      {
+        path: '/log/logininfor',
+        name: '登录日志',
+        component: () => import('@/views/logininfor/index'),
+        meta: { title: '登录日志', icon: 'logininfor' },
+      }
+    ]
+  },
+  {
     path: '/user',
     component: Layout,
     hidden: true,
+    name: "个人中心",
     redirect: 'noredirect',
     children: [
       {
@@ -216,22 +233,48 @@ export const constantRoutes = [
       }
     ]
   },
+  {
+    path: '/member/rent',
+    component: Layout,
+    name: "汽车租赁",
+    children: [{
+      path: '/member/rent',
+      name: '汽车租赁',
+      component: () => import('@/views/member/rent'),
+      meta: { title: '汽车租赁', icon: 'car' }
+    }]
+  },
+  {
+    path: '/member/myRent',
+    component: Layout,
+    name: "我的租赁",
+    children: [{
+      path: '/member/myRent',
+      name: '我的租赁',
+      component: () => import('@/views/member/myRent'),
+      meta: { title: '我的租赁', icon: 'car' }
+    }]
+  },
+
   // 404 page must be placed at the end !!!
-  { path: '*', redirect: '/404', hidden: true }
+  { path: '*', name: "*", redirect: '/404', hidden: true }
 ]
 
-const createRouter = () => new Router({
-  // mode: 'history', // require service support
-  scrollBehavior: () => ({ y: 0 }),
+export default new Router({
   routes: constantRoutes
 })
 
-const router = createRouter()
-
-// Detail see: https://github.com/vuejs/vue-router/issues/1234#issuecomment-357941465
-export function resetRouter() {
-  const newRouter = createRouter()
-  router.matcher = newRouter.matcher // reset router
-}
-
-export default router
+// const createRouter = () => new Router({
+//   // mode: 'history', // require service support
+//   routes: constantRoutes
+// })
+//
+// const router = createRouter()
+//
+// // Detail see: https://github.com/vuejs/vue-router/issues/1234#issuecomment-357941465
+// export function resetRouter() {
+//   const newRouter = createRouter()
+//   router.matcher = newRouter.matcher // reset router
+// }
+//
+// export default router

@@ -15,7 +15,7 @@
           </el-form-item>
         </el-col>
       </el-row>
-
+      <input hidden="hidden" v-model="busCarQuery.isrenting" value="0"></input>
 
     </el-form>
 
@@ -24,7 +24,7 @@
       style="width: 100%"
       v-loading="loading"
     >
-    >
+      >
 
       <el-table-column prop="carnumber" align="center" label="车牌号"/>
 
@@ -38,11 +38,11 @@
 
       <el-table-column prop="deposit" align="center" label="出租押金"/>
 
-      <el-table-column label="出租状态" align="center" width="50">
-        <template slot-scope="scope">
-          {{ scope.row.isrenting === 1 ? '在租' : '未租'}}
-        </template>
-      </el-table-column>
+<!--      <el-table-column label="出租状态" align="center" width="50">-->
+<!--        <template slot-scope="scope">-->
+<!--          {{ scope.row.isrenting === 1 ? '在租' : '未租'}}-->
+<!--        </template>-->
+<!--      </el-table-column>-->
 
       <el-table-column prop="description" align="center" label="车辆描述"/>
 
@@ -56,31 +56,31 @@
         </template>
       </el-table-column>
 
-      <el-table-column label="录入时间" align="center" width="200">
-        <template slot-scope="scope">
-          {{ scope.row.createtime | formatDate }}
-        </template>
-      </el-table-column>
-
-<!--      <el-table-column label="操作" align="center" width="200">-->
+<!--      <el-table-column label="录入时间" align="center" width="200">-->
 <!--        <template slot-scope="scope">-->
-<!--          <el-button-->
-<!--            type="text"-->
-<!--            size="mini"-->
-<!--            icon="el-icon-edit"-->
-<!--            @click="rent(scope.row.carnumber)"-->
-<!--          >出租汽车</el-button>-->
+<!--          {{ scope.row.createtime | formatDate }}-->
 <!--        </template>-->
 <!--      </el-table-column>-->
+
+      <el-table-column label="操作" align="center" width="200">
+        <template slot-scope="scope">
+          <el-button
+            type="text"
+            size="mini"
+            icon="el-icon-edit"
+            @click="rent(scope.row.carnumber)"
+          >我要租赁</el-button>
+        </template>
+      </el-table-column>
     </el-table>
 
     <el-pagination class="pull-right"
-      :current-page="page"
-      :page-size="limit"
-      :total="total"
-      background
-      layout="prev, pager, next"
-      @current-change="getList"
+                   :current-page="page"
+                   :page-size="limit"
+                   :total="total"
+                   background
+                   layout="prev, pager, next"
+                   @current-change="getList"
     />
 
 
@@ -149,13 +149,13 @@
             </el-form-item>
           </el-col>
         </el-row>
-        <el-row>
-          <el-col :span="12">
-            <el-form-item label="身份证号" prop="identity">
-              <el-input size="small" v-model="form.identity" placeholder="请输入客户身份证号" />
-            </el-form-item>
-          </el-col>
-        </el-row>
+<!--        <el-row>-->
+<!--          <el-col :span="12">-->
+<!--            <el-form-item label="身份证号" prop="identity">-->
+<!--              <el-input size="small" v-model="form.identity" placeholder="请输入客户身份证号" />-->
+<!--            </el-form-item>-->
+<!--          </el-col>-->
+<!--        </el-row>-->
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button size="small" type="primary" @click="submitForm">确 定</el-button>
@@ -207,6 +207,7 @@
       getList(page = 1) {
         this.loading = true
         this.page = page
+        this.busCarQuery.isrenting = 0
         car.list(this.page, this.limit, this.busCarQuery)
           .then(response => {
             this.list = response.data.rows
@@ -243,16 +244,16 @@
           // 重新刷新列表
           this.getNotRent()
         })
-        .catch(error => {
-          // 出租失败
-          // 提示失败信息
-          this.$message({
-            type: 'danger',
-            message: '出租失败!'
+          .catch(error => {
+            // 出租失败
+            // 提示失败信息
+            this.$message({
+              type: 'danger',
+              message: '出租失败!'
+            })
+            // 关闭对话框
+            this.dialogVisible = false
           })
-          // 关闭对话框
-          this.dialogVisible = false
-        })
       },
       // 取消按钮
       cancel() {
