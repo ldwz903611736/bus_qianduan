@@ -163,12 +163,6 @@ export const constantRoutes = [
         meta: { title: '客户地区性别统计', icon: 'bingtu' },
       },
       {
-        path: '/opernameYearGrade/index',
-        name: '业务员年度销售额',
-        component: () => import('@/views/opernameYearGrade/index'),
-        meta: { title: '业务员年度销售额', icon: 'zhuzhuangtu' },
-      },
-      {
         path: '/companyYearGrade/index',
         name: '公司年度月份销售额',
         component: () => import('@/views/companyYearGrade/index'),
@@ -255,7 +249,28 @@ export const constantRoutes = [
       meta: { title: '我的租赁', icon: 'car' }
     }]
   },
-
+  {
+    path: '/member/order',
+    component: Layout,
+    name: "我的订单",
+    children: [{
+      path: '/member/order',
+      name: '我的订单',
+      component: () => import('@/views/member/order'),
+      meta: { title: '我的订单', icon: 'car' }
+    }]
+  },
+  {
+    path: '/member/faultFeedback',
+    component: Layout,
+    name: "故障反馈",
+    children: [{
+      path: '/member/faultFeedback',
+      name: '故障反馈',
+      component: () => import('@/views/member/faultFeedback'),
+      meta: { title: '故障反馈', icon: 'car' }
+    }]
+  },
   // 404 page must be placed at the end !!!
   { path: '*', name: "*", redirect: '/404', hidden: true }
 ]

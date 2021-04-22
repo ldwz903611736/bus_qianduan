@@ -169,7 +169,6 @@
   // 引入调用的相关api下的js文件
   import car from '@/api/car'
   import rent from '@/api/rent'
-  import axios from 'axios'
 
   export default {
     // 写核心代码
