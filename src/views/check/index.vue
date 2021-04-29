@@ -99,6 +99,18 @@
         </template>
       </el-table-column>
 
+      <el-table-column label="支付状态" align="center" width="80">
+        <template slot-scope="scope">
+          {{ scope.row.pay === true ? '已支付' : '待支付'}}
+        </template>
+      </el-table-column>
+
+      <el-table-column label="支付时间" align="center" width="200">
+        <template slot-scope="scope">
+          {{ scope.row.paytime != null ? scope.row.paytime.replace("T", " ") : "未支付" }}
+        </template>
+      </el-table-column>
+
       <el-table-column label="操作" width="250" align="center" fixed="right">
         <template slot-scope="scope">
           <el-button

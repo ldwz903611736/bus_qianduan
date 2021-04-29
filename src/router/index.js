@@ -130,10 +130,10 @@ export const constantRoutes = [
         meta: { title: '出租单管理', icon: 'dan' },
       },
       {
-        path: '/addCar/index',
-        name: '汽车入库',
-        component: () => import('@/views/addCar/index'),
-        meta: { title: '汽车入库', icon: 'ruku' },
+        path: '/faultFeedback/index',
+        name: '故障查看',
+        component: () => import('@/views/faultFeedback/index'),
+        meta: { title: '故障查看', icon: 'ruku' },
       },
       {
         path: '/check/index',
@@ -258,6 +258,17 @@ export const constantRoutes = [
       name: '我的订单',
       component: () => import('@/views/member/order'),
       meta: { title: '我的订单', icon: 'car' }
+    }]
+  },
+  {
+    path: '/member/check',
+    component: Layout,
+    name: "我的检查单",
+    children: [{
+      path: '/member/check',
+      name: '我的检查单',
+      component: () => import('@/views/member/check'),
+      meta: { title: '我的检查单', icon: 'car' }
     }]
   },
   {

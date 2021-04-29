@@ -52,6 +52,20 @@ export default {
       method: 'delete',
       data: ids
     })
+  },
+
+  getMy() {
+    return request({
+      url: `/check/my`,
+      method: 'get'
+    })
+  },
+
+  pay(checkid) {
+    return request({
+      url: `/check/pay/${checkid}`,
+      method: 'put'
+    })
   }
 
 }

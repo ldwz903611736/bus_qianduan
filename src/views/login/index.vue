@@ -73,14 +73,14 @@ export default {
     }
     return {
       loginForm: {
-        username: '',
-        password: '',
+        username: 'admin',
+        password: '123456',
         userType: ''
       },
       loginRules: {
-        username: [{ required: true, trigger: 'blur', validator: validateUsername }],
-        password: [{ required: true, trigger: 'blur', validator: validatePassword }],
-        // userType: [{ required: true, trigger: 'blur', validator: validateUserType }]
+        username: [{ required: true, trigger: 'blur', message: "用户名不能为空！" }],
+        password: [{ required: true, trigger: 'blur', message: "密码不能为空！" }],
+        userType: [{ required: true, trigger: 'blur', message: "用户类型不能为空!" }]
       },
       loading: false,
       passwordType: 'password',
