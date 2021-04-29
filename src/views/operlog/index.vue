@@ -4,13 +4,13 @@
     <el-form ref="operLogQuery" :model="operLogQuery" label-width="80px" class="demo-form-inline">
       <el-row>
         <el-col :span="6">
-          <el-form-item label="系统模块" prop="title" >
+          <el-form-item label="系统模块" prop="title">
             <el-input size="small" v-model="operLogQuery.title" placeholder="请输入系统模块"/>
           </el-form-item>
         </el-col>
         <el-col :span="6">
           <el-form-item label="操作人员" prop="operName">
-            <el-input size="small" v-model="operLogQuery.operName" placeholder="请输入操作人员" />
+            <el-input size="small" v-model="operLogQuery.operName" placeholder="请输入操作人员"/>
           </el-form-item>
         </el-col>
         <el-col :span="6">
@@ -28,7 +28,7 @@
       </el-row>
       <el-row>
         <el-col :span="6">
-          <el-form-item label="开始时间" prop="beginTime" >
+          <el-form-item label="开始时间" prop="beginTime">
             <el-date-picker
               size="small"
               v-model="operLogQuery.beginTime"
@@ -69,7 +69,9 @@
 
       <el-row :gutter="10" class="mb8">
         <el-col :span="1.5">
-          <el-button type="danger" plain size="mini" icon="el-icon-delete" :disabled="multiple" @click="removeBatch()">删除</el-button>
+          <el-button type="danger" plain size="mini" icon="el-icon-delete" :disabled="multiple" @click="removeBatch()">
+            删除
+          </el-button>
         </el-col>
         <el-col :span="1.5">
           <el-button type="danger" plain size="mini" icon="el-icon-delete" @click="handleClean()">清空</el-button>
@@ -129,18 +131,19 @@
               size="mini"
               icon="el-icon-view"
               @click="handleView(scope.row,scope.index)"
-            >详细</el-button>
+            >详细
+            </el-button>
           </template>
         </el-table-column>
-       </el-table>
+      </el-table>
 
-       <el-pagination class="pull-right"
-        :current-page="page"
-        :page-size="limit"
-        :total="total"
-        background
-        layout="prev, pager, next"
-        @current-change="getList"
+      <el-pagination class="pull-right"
+                     :current-page="page"
+                     :page-size="limit"
+                     :total="total"
+                     background
+                     layout="prev, pager, next"
+                     @current-change="getList"
       />
     </el-form>
 
@@ -152,7 +155,8 @@
             <el-form-item label="操作模块：">{{ form.title }}</el-form-item>
             <el-form-item
               label="登录信息："
-            >{{ form.operName }} / {{ form.operIp }} / {{ form.operLocation }}</el-form-item>
+            >{{ form.operName }} / {{ form.operIp }} / {{ form.operLocation }}
+            </el-form-item>
           </el-col>
           <el-col :span="12">
             <el-form-item label="请求地址：">{{ form.operUrl }}</el-form-item>
@@ -210,30 +214,30 @@
         businessTypeOptions: [
           {
             value: 0,
-            label: "其他"
+            label: '其他'
           },
           {
             value: 1,
-            label: "新增"
+            label: '新增'
           },
           {
             value: 2,
-            label: "修改"
+            label: '修改'
           },
           {
             value: 3,
-            label: "删除"
+            label: '删除'
           }
         ],
         statusOptions: [
           {
             value: 0,
-            label: "正常"
+            label: '正常'
           },
           {
             value: 1,
-            label: "失败"
-          },
+            label: '失败'
+          }
         ]
       }
     },
@@ -245,9 +249,9 @@
         this.loading = true
         this.page = page
         operLog.getList(this.page, this.limit, this.operLogQuery).then(response => {
-            this.list = response.data.rows
-            this.total = response.data.total
-            this.loading = false
+          this.list = response.data.rows
+          this.total = response.data.total
+          this.loading = false
         })
       },
       resetData() {
@@ -255,14 +259,14 @@
         this.getList()
       },
       exportExcel() {
-        this.$confirm("是否确认导出所有操作日志数据项?", "警告", {
-          confirmButtonText: "确定",
-          cancelButtonText: "取消",
-          type: "warning"
+        this.$confirm('是否确认导出所有操作日志数据项?', '警告', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
         }).then(() => {
           axios({
             headers: {
-              'Authorization' : getToken()
+              'Authorization': getToken()
             },
             url: `http://localhost:9999/log/export`,
             method: 'post',
@@ -271,33 +275,33 @@
           }).then(response => {
             if (response.data.code >= 3001) {
               this.$message({
-                type: "danger",
+                type: 'danger',
                 message: response.data.message
               })
             } else {
-              const link = document.createElement('a');
-              let blob = new Blob([response.data], {type: 'application/vnd.ms-excel'});
-              link.style.display = 'none';
-              link.href = URL.createObjectURL(blob);
+              const link = document.createElement('a')
+              let blob = new Blob([response.data], { type: 'application/vnd.ms-excel' })
+              link.style.display = 'none'
+              link.href = URL.createObjectURL(blob)
 
-              link.setAttribute('download', '日志' + '.xlsx');
-              document.body.appendChild(link);
-              link.click();
-              document.body.removeChild(link);
+              link.setAttribute('download', '日志' + '.xlsx')
+              document.body.appendChild(link)
+              link.click()
+              document.body.removeChild(link)
             }
           })
         })
       },
       /** 清空按钮操作 */
       handleClean() {
-        this.$confirm('是否确认清空所有操作日志数据项?', "警告", {
-          confirmButtonText: "确定",
-          cancelButtonText: "取消",
-          type: "warning"
+        this.$confirm('是否确认清空所有操作日志数据项?', '警告', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
         }).then(function() {
-          return operLog.clean();
+          return operLog.clean()
         }).then(() => {
-          this.getList();
+          this.getList()
           this.$message({
             type: 'success',
             message: '清空成功!'
@@ -306,10 +310,10 @@
       },
       removeBatch() {
         var ids = this.tableChecked.map(item => item.operId)
-        this.$confirm('是否确认删除日志编号为"' + ids + '"的数据项?', "警告", {
-          confirmButtonText: "确定",
-          cancelButtonText: "取消",
-          type: "warning"
+        this.$confirm('是否确认删除日志编号为"' + ids + '"的数据项?', '警告', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
         }).then(() => {
           operLog.removeBatch(ids).then(response => {
             // 删除成功
@@ -330,32 +334,32 @@
         })
       },
       convertBusinessType(type) {
-        switch(type) {
+        switch (type) {
           case 0:
             return '其它'
-            break;
+            break
           case 1:
             return '新增'
-            break;
+            break
           case 2:
             return '修改'
-            break;
+            break
           case 3:
             return '删除'
-            break;
+            break
           default:
             return 'NULL'
         }
       },
       handleSelectionChange(val) {
-        this.tableChecked = val;
-        this.multiple = !val.length;
+        this.tableChecked = val
+        this.multiple = !val.length
       },
       /** 详细按钮操作 */
       handleView(row) {
-        this.open = true;
-        this.form = row;
-      },
+        this.open = true
+        this.form = row
+      }
     }
   }
 </script>

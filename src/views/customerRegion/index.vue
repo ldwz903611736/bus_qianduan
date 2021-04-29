@@ -1,7 +1,7 @@
 <template>
   <div class="app-container">
     <div class="chart-container">
-      <div id="chart" class="chart" style="height:500px;width:100%" />
+      <div id="chart" class="chart" style="height:500px;width:100%"/>
     </div>
   </div>
 </template>

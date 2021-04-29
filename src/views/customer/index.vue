@@ -3,31 +3,31 @@
     <el-divider content-position="left"><span>查询条件</span></el-divider>
     <el-form ref="busCustomerQuery" :model="busCustomerQuery" label-width="80px" class="demo-form-inline">
       <el-row>
-          <el-col :span="6">
-            <el-form-item label="身份证号" prop="identity" >
-              <el-input size="small" v-model="busCustomerQuery.identity" placeholder="请输入身份证号码"/>
-            </el-form-item>
-          </el-col>
-          <el-col :span="6">
-            <el-form-item label="客户姓名" prop="custname">
-              <el-input size="small" v-model="busCustomerQuery.custname" placeholder="请输入客户姓名" />
-            </el-form-item>
-          </el-col>
-          <el-col :span="6">
-            <el-form-item label="客户地址" prop="address">
-              <el-input size="small" v-model="busCustomerQuery.address" placeholder="请输入客户地址" />
-            </el-form-item>
-          </el-col>
+        <el-col :span="6">
+          <el-form-item label="身份证号" prop="identity">
+            <el-input size="small" v-model="busCustomerQuery.identity" placeholder="请输入身份证号码"/>
+          </el-form-item>
+        </el-col>
+        <el-col :span="6">
+          <el-form-item label="客户姓名" prop="custname">
+            <el-input size="small" v-model="busCustomerQuery.custname" placeholder="请输入客户姓名"/>
+          </el-form-item>
+        </el-col>
+        <el-col :span="6">
+          <el-form-item label="客户地址" prop="address">
+            <el-input size="small" v-model="busCustomerQuery.address" placeholder="请输入客户地址"/>
+          </el-form-item>
+        </el-col>
       </el-row>
       <el-row>
         <el-col :span="6">
-          <el-form-item label="客户电话" prop="phone" >
+          <el-form-item label="客户电话" prop="phone">
             <el-input size="small" v-model="busCustomerQuery.phone" placeholder="请输入客户电话"/>
           </el-form-item>
         </el-col>
         <el-col :span="6">
           <el-form-item label="客户职业" prop="career">
-            <el-input size="small" v-model="busCustomerQuery.career" placeholder="请输入客户职业" />
+            <el-input size="small" v-model="busCustomerQuery.career" placeholder="请输入客户职业"/>
           </el-form-item>
         </el-col>
         <el-col :span="6">
@@ -52,7 +52,9 @@
         <el-button type="warning" plain size="mini" icon="el-icon-download" @click="exportExcel()">导出</el-button>
       </el-col>
       <el-col :span="1.5">
-        <el-button type="danger" plain size="mini" icon="el-icon-delete" :disabled="mutiple" @click="removeBatch()">批量删除</el-button>
+        <el-button type="danger" plain size="mini" icon="el-icon-delete" :disabled="mutiple" @click="removeBatch()">
+          批量删除
+        </el-button>
       </el-col>
     </el-row>
 
@@ -102,25 +104,27 @@
             size="mini"
             icon="el-icon-edit"
             @click="edit(scope.row.identity)"
-          >编辑</el-button>
+          >编辑
+          </el-button>
 
           <el-button class="pul-left"
-            type="text"
-            size="mini"
-            icon="el-icon-delete"
-            @click="removeDataById(scope.row.identity)"
-          >删除</el-button>
+                     type="text"
+                     size="mini"
+                     icon="el-icon-delete"
+                     @click="removeDataById(scope.row.identity)"
+          >删除
+          </el-button>
         </template>
       </el-table-column>
     </el-table>
 
     <el-pagination class="pull-right"
-      :current-page="page"
-      :page-size="limit"
-      :total="total"
-      background
-      layout="prev, pager, next"
-      @current-change="getList"
+                   :current-page="page"
+                   :page-size="limit"
+                   :total="total"
+                   background
+                   layout="prev, pager, next"
+                   @current-change="getList"
     />
 
     <!-- 新增或修改对话框 -->
@@ -129,31 +133,31 @@
         <el-row>
           <el-col :span="12">
             <el-form-item label="身份证号" prop="identity">
-              <el-input size="small" v-model="form.identity" placeholder="请输入身份证号码" />
+              <el-input size="small" v-model="form.identity" placeholder="请输入身份证号码"/>
             </el-form-item>
           </el-col>
           <el-col :span="12">
             <el-form-item label="客户职位" prop="career">
-              <el-input size="small" v-model="form.career" placeholder="请输入客户职位" />
+              <el-input size="small" v-model="form.career" placeholder="请输入客户职位"/>
             </el-form-item>
           </el-col>
         </el-row>
         <el-row>
           <el-col :span="12">
             <el-form-item label="客户姓名" prop="custname">
-              <el-input size="small" v-model="form.custname" placeholder="请输入客户姓名" />
+              <el-input size="small" v-model="form.custname" placeholder="请输入客户姓名"/>
             </el-form-item>
           </el-col>
           <el-col :span="12">
             <el-form-item label="客户地址" prop="address">
-              <el-input size="small" v-model="form.address" placeholder="请输入客户地址" />
+              <el-input size="small" v-model="form.address" placeholder="请输入客户地址"/>
             </el-form-item>
           </el-col>
         </el-row>
         <el-row>
           <el-col :span="12">
             <el-form-item label="手机号码" prop="phone">
-              <el-input size="small" v-model="form.phone" placeholder="请输入手机号码" />
+              <el-input size="small" v-model="form.phone" placeholder="请输入手机号码"/>
             </el-form-item>
           </el-col>
           <el-col :span="12">
@@ -163,7 +167,8 @@
                   v-for="dict in sexOptions"
                   :key="dict.value"
                   :label="dict.value"
-                >{{dict.label}}</el-radio>
+                >{{dict.label}}
+                </el-radio>
               </el-radio-group>
             </el-form-item>
           </el-col>
@@ -171,7 +176,7 @@
         <el-row>
           <el-col :span="12">
             <el-form-item label="电子邮箱" prop="email">
-              <el-input size="small" v-model="form.email" placeholder="请输入电子邮箱" />
+              <el-input size="small" v-model="form.email" placeholder="请输入电子邮箱"/>
             </el-form-item>
           </el-col>
         </el-row>
@@ -204,7 +209,7 @@
         form: {},
         dialogVisible: false,
         tableChecked: [], // 批量删除的数据
-        title: "", // 对话框显示新增用户或修改用户
+        title: '', // 对话框显示新增用户或修改用户
         mutiple: true,
         sexOptions: [
           {
@@ -223,14 +228,14 @@
     },
     methods: {
       exportExcel() {
-        this.$confirm("是否确认导出所有客户信息?", "警告", {
+        this.$confirm('是否确认导出所有客户信息?', '警告', {
           confirmButtonText: '确定',
           cancelButtonText: '取消',
           type: 'warning'
         }).then(() => {
           axios({
             headers: {
-              'Authorization' : getToken()
+              'Authorization': getToken()
             },
             url: `http://localhost:9999/customer/export`,
             method: 'post',
@@ -243,15 +248,15 @@
                 message: response.data.message
               })
             } else {
-              const link = document.createElement('a');
-              let blob = new Blob([response.data], {type: 'application/vnd.ms-excel'});
-              link.style.display = 'none';
-              link.href = URL.createObjectURL(blob);
+              const link = document.createElement('a')
+              let blob = new Blob([response.data], { type: 'application/vnd.ms-excel' })
+              link.style.display = 'none'
+              link.href = URL.createObjectURL(blob)
 
-              link.setAttribute('download', '客户信息' + '.xlsx');
-              document.body.appendChild(link);
-              link.click();
-              document.body.removeChild(link);
+              link.setAttribute('download', '客户信息' + '.xlsx')
+              document.body.appendChild(link)
+              link.click()
+              document.body.removeChild(link)
             }
           })
         })
@@ -303,9 +308,9 @@
       },
       removeBatch() {
         var ids = this.tableChecked.map(item => item.identity)
-        this.$confirm('是否确认删除编号为' + ids + "的数据项", "警告", {
-          confirmButtonText: "确定",
-          cancelButtonText: "取消",
+        this.$confirm('是否确认删除编号为' + ids + '的数据项', '警告', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消'
         }).then(() => {
           customer.removeBatch(ids).then(response => {
             // 删除成功
@@ -326,7 +331,7 @@
         })
       },
       handleSelectionChange(val) {
-        this.tableChecked = val;
+        this.tableChecked = val
         this.mutiple = !val.length
       },
       // 新增
@@ -346,11 +351,11 @@
       },
       // 取消按钮
       cancel() {
-        this.dialogVisible = false;
+        this.dialogVisible = false
         this.resetData()
       },
       submitForm() {
-        if (this.title == '新增用户' ) {
+        if (this.title == '新增用户') {
           customer.add(this.form).then(response => {
             // 提示成功信息
             this.$message({
@@ -364,16 +369,16 @@
             // 查询所有，更新数据
             this.getList()
           })
-          .catch(error => {
-            // 提示成功信息
-            this.$message({
-              type: 'danger',
-              message: '新增失败!'
+            .catch(error => {
+              // 提示成功信息
+              this.$message({
+                type: 'danger',
+                message: '新增失败!'
+              })
+              // 表单信息清空
+              this.form = {}
+              console.log(error)
             })
-            // 表单信息清空
-            this.form = {}
-            console.log(error)
-          })
         } else {
           customer.edit(this.form).then(response => {
             // 提示成功信息
@@ -387,7 +392,7 @@
             this.form = {}
             // 查询所有，更新数据
             this.getList()
-            })
+          })
             .catch(error => {
               // 提示失败信息
               this.$message({

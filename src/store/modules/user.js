@@ -54,7 +54,7 @@ const actions = {
         if (!data) {
           return reject('Verification failed, please Login again.')
         }
-        const avatar = require("@/assets/images/profile.jpg")
+        const avatar = require('@/assets/images/profile.jpg')
 
         commit('SET_NAME', name)
         commit('SET_AVATAR', avatar)

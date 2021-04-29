@@ -1,5 +1,4 @@
 import request from '@/utils/request'
-import id from 'element-ui/src/locale/lang/id'
 
 export default {
   // 客户地区统计
@@ -33,6 +32,5 @@ export default {
       method: 'get'
     })
   }
-
 
 }

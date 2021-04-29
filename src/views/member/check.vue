@@ -45,7 +45,8 @@
             icon="el-icon-edit"
             :disabled="scope.row.pay === true"
             @click="pay(scope.row.checkid)"
-          >支付</el-button>
+          >支付
+          </el-button>
         </template>
       </el-table-column>
     </el-table>

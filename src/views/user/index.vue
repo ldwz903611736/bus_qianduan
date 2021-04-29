@@ -53,16 +53,17 @@
           size="mini"
           @click="handleAdd"
           v-hasPermi="['system:role:add']"
-        >新增</el-button>
+        >新增
+        </el-button>
       </el-col>
     </el-row>
 
-    <el-table v-loading="loading" :data="userList"  @selection-change="handleSelectionChange">
+    <el-table v-loading="loading" :data="userList" @selection-change="handleSelectionChange">
       <el-table-column label="用户名称" align="center" prop="loginname"/>
       <el-table-column label="用户昵称" align="center" prop="realname"/>
-      <el-table-column label="用户地址" align="center" prop="address" />
+      <el-table-column label="用户地址" align="center" prop="address"/>
       <el-table-column label="用户职位" align="center" prop="position"/>
-      <el-table-column label="手机号码" align="center" prop="phone" width="120" />
+      <el-table-column label="手机号码" align="center" prop="phone" width="120"/>
       <el-table-column label="状态" align="center">
         <template slot-scope="scope">
           <el-switch
@@ -86,7 +87,8 @@
             icon="el-icon-edit"
             @click="handleUpdate(scope.row)"
             v-hasPermi="['system:user:edit']"
-          >修改</el-button>
+          >修改
+          </el-button>
           <el-button
             v-if="scope.row.userId !== 1"
             size="mini"
@@ -94,27 +96,28 @@
             icon="el-icon-delete"
             @click="handleDelete(scope.row)"
             v-hasPermi="['system:user:remove']"
-          >删除</el-button>
+          >删除
+          </el-button>
           <el-button
             size="mini"
             type="text"
             icon="el-icon-key"
             @click="handleResetPwd(scope.row)"
             v-hasPermi="['system:user:resetPwd']"
-          >重置</el-button>
+          >重置
+          </el-button>
         </template>
       </el-table-column>
     </el-table>
 
     <el-pagination class="pull-right"
-       :current-page="page"
-       :page-size="count"
-       :total="total"
-       background
-       layout="prev, pager, next"
-       @current-change="getList"
+                   :current-page="page"
+                   :page-size="count"
+                   :total="total"
+                   background
+                   layout="prev, pager, next"
+                   @current-change="getList"
     />
-
 
 
     <!-- 添加或修改参数配置对话框 -->
@@ -123,36 +126,36 @@
         <el-row>
           <el-col :span="12">
             <el-form-item label="用户昵称" prop="loginname">
-              <el-input v-model="form.realname" placeholder="请输入用户昵称" />
+              <el-input v-model="form.realname" placeholder="请输入用户昵称"/>
             </el-form-item>
           </el-col>
           <el-col :span="12">
             <el-form-item label="身份证号" prop="identity">
-              <el-input v-model="form.identity" placeholder="请输入用户昵称" />
+              <el-input v-model="form.identity" placeholder="请输入用户昵称"/>
             </el-form-item>
           </el-col>
         </el-row>
         <el-row>
           <el-col :span="12">
             <el-form-item label="手机号码" prop="phone">
-              <el-input v-model="form.phone" placeholder="请输入手机号码" maxlength="11" />
+              <el-input v-model="form.phone" placeholder="请输入手机号码" maxlength="11"/>
             </el-form-item>
           </el-col>
           <el-col :span="12">
             <el-form-item label="地址" prop="address">
-              <el-input v-model="form.address" placeholder="请输入手机号码" maxlength="11" />
+              <el-input v-model="form.address" placeholder="请输入手机号码" maxlength="11"/>
             </el-form-item>
           </el-col>
         </el-row>
         <el-row>
           <el-col :span="12">
             <el-form-item v-if="form.userid == undefined" label="用户名称" prop="loginname">
-              <el-input v-model="form.loginname" placeholder="请输入用户名称" />
+              <el-input v-model="form.loginname" placeholder="请输入用户名称"/>
             </el-form-item>
           </el-col>
           <el-col :span="12">
             <el-form-item v-if="form.userid == undefined" label="用户密码" prop="pwd">
-              <el-input v-model="form.pwd" placeholder="请输入用户密码" type="password" />
+              <el-input v-model="form.pwd" placeholder="请输入用户密码" type="password"/>
             </el-form-item>
           </el-col>
         </el-row>
@@ -176,7 +179,8 @@
                   v-for="dict in statusOptions"
                   :key="dict.value"
                   :label="dict.value"
-                >{{dict.label}}</el-radio>
+                >{{dict.label}}
+                </el-radio>
               </el-radio-group>
             </el-form-item>
           </el-col>
@@ -184,7 +188,7 @@
         <el-row>
           <el-col :span="12">
             <el-form-item label="岗位">
-              <el-input v-model="form.position" placeholder="请输入手机号码" />
+              <el-input v-model="form.position" placeholder="请输入手机号码"/>
             </el-form-item>
           </el-col>
           <el-col :span="12">
@@ -223,7 +227,7 @@
         userQuery: {},
         open: false,
         form: {},
-        title: "",
+        title: '',
         roleOptions: [],
         statusOptions: [
           {
@@ -281,109 +285,110 @@
         role.getRoleList().then(response => {
           this.roleOptions = response.data
         })
-        this.reset();
-        this.open = true;
-        this.title = "添加用户";
+        this.reset()
+        this.open = true
+        this.title = '添加用户'
       },
       /** 修改按钮操作 */
       handleUpdate(row) {
-        this.reset();
-        const userId = row.userid || this.ids;
+        this.reset()
+        const userId = row.userid || this.ids
         role.getRoleList().then(response => {
           this.roleOptions = response.data
         })
         user.getInfoById(userId).then(response => {
-          this.form = response.data;
-          this.open = true;
-          this.title = "修改用户";
-          this.form.password = "";
-        });
+          this.form = response.data
+          this.open = true
+          this.title = '修改用户'
+          this.form.password = ''
+        })
       },
       // 取消按钮
       cancel() {
-        this.open = false;
-        this.reset();
+        this.open = false
+        this.reset()
       },
       /** 提交按钮 */
       submitForm: function() {
         if (this.form.userid != undefined) {
           user.updateUser(this.form).then(response => {
             this.$message({
-              type: "success",
-              message: "修改成功"
+              type: 'success',
+              message: '修改成功'
             })
-            this.open = false;
-            this.getList();
-          });
+            this.open = false
+            this.getList()
+          })
         } else {
           user.add(this.form).then(response => {
             this.$message({
               type: 'success',
               message: '添加成功'
             })
-            this.open = false;
-            this.getList();
-          });
+            this.open = false
+            this.getList()
+          })
         }
       },
       /** 搜索按钮操作 */
       handleQuery() {
-        this.getList();
+        this.getList()
       },
       /** 重置按钮操作 */
       resetQuery() {
         this.userQuery = {}
-        this.handleQuery();
+        this.handleQuery()
       },
       /** 删除按钮操作 */
       handleDelete(row) {
-        const userIds = row.userid || this.ids;
-        this.$confirm('是否确认删除用户编号为"' + userIds + '"的数据项?', "警告", {
-          confirmButtonText: "确定",
-          cancelButtonText: "取消",
-          type: "warning"
+        const userIds = row.userid || this.ids
+        this.$confirm('是否确认删除用户编号为"' + userIds + '"的数据项?', '警告', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
         }).then(function() {
-          return user.deleteById(userIds);
+          return user.deleteById(userIds)
         }).then(() => {
-          this.getList();
+          this.getList()
           this.$message({
-            type: "success",
-            message: "删除成功"
+            type: 'success',
+            message: '删除成功'
           })
         })
       },
       /** 重置密码按钮操作 */
       handleResetPwd(row) {
-        this.$prompt('请输入"' + row.loginname + '"的新密码', "提示", {
-          confirmButtonText: "确定",
-          cancelButtonText: "取消"
+        this.$prompt('请输入"' + row.loginname + '"的新密码', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消'
         }).then(({ value }) => {
           user.resetUserPwd(row.userid, value).then(response => {
             this.$message({
-              type: "success",
-              message: "修改成功，新密码是:" + value
+              type: 'success',
+              message: '修改成功，新密码是:' + value
             })
-          });
-        }).catch(() => {});
+          })
+        }).catch(() => {
+        })
       },
       // 用户状态修改
       handleStatusChange(row) {
-        let text = row.available === 1 ? "启用" : "停用";
-        this.$confirm('确认要"' + text + '""' + row.loginname + '"用户吗?', "警告", {
-          confirmButtonText: "确定",
-          cancelButtonText: "取消",
-          type: "warning"
+        let text = row.available === 1 ? '启用' : '停用'
+        this.$confirm('确认要"' + text + '""' + row.loginname + '"用户吗?', '警告', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
         }).then(function() {
-          return user.changeUserStatus(row.userid, row.available);
+          return user.changeUserStatus(row.userid, row.available)
         }).then(() => {
           this.$message({
-            type: "success",
-            message: text + "成功"
+            type: 'success',
+            message: text + '成功'
           })
         }).catch(function() {
-          row.available = row.available === 1 ? 0 : 1;
-        });
-      },
+          row.available = row.available === 1 ? 0 : 1
+        })
+      }
     }
   }
 </script>

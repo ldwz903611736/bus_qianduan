@@ -4,7 +4,7 @@
     <el-form ref="busFaultQuery" :model="busFaultQuery" label-width="80px" class="demo-form-inline">
       <el-row>
         <el-col :span="5">
-          <el-form-item label="车牌号" prop="carnumber" >
+          <el-form-item label="车牌号" prop="carnumber">
             <el-input size="small" v-model="busFaultQuery.carnumber" placeholder="请输入车牌号"/>
           </el-form-item>
         </el-col>
@@ -66,7 +66,8 @@
             icon="el-icon-edit"
             :disabled="scope.row.handle"
             @click="handle(scope.row.id)"
-          >去处理</el-button>
+          >去处理
+          </el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -143,7 +144,7 @@
           })
           console.log(error)
         })
-      },
+      }
     }
   }
 </script>

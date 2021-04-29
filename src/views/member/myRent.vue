@@ -4,24 +4,24 @@
     <el-form ref="busRentQuery" :model="busRentQuery" label-width="80px" class="demo-form-inline">
       <el-row>
         <el-col :span="6">
-          <el-form-item label="出租单号" prop="rentid" >
+          <el-form-item label="出租单号" prop="rentid">
             <el-input size="small" v-model="busRentQuery.rentid" placeholder="请输入出租单号"/>
           </el-form-item>
         </el-col>
-<!--        <el-col :span="6">-->
-<!--          <el-form-item label="身份证号" prop="identity">-->
-<!--            <el-input size="small" v-model="busRentQuery.identity" placeholder="请输入身份证号" />-->
-<!--          </el-form-item>-->
-<!--        </el-col>-->
+        <!--        <el-col :span="6">-->
+        <!--          <el-form-item label="身份证号" prop="identity">-->
+        <!--            <el-input size="small" v-model="busRentQuery.identity" placeholder="请输入身份证号" />-->
+        <!--          </el-form-item>-->
+        <!--        </el-col>-->
         <el-col :span="6">
           <el-form-item label="车牌号" prop="carnumber">
-            <el-input size="small" v-model="busRentQuery.carnumber" placeholder="请输入车牌号" />
+            <el-input size="small" v-model="busRentQuery.carnumber" placeholder="请输入车牌号"/>
           </el-form-item>
         </el-col>
       </el-row>
       <el-row>
         <el-col :span="6">
-          <el-form-item label="开始时间" prop="begindate" >
+          <el-form-item label="开始时间" prop="begindate">
             <el-date-picker
               size="small"
               v-model="busRentQuery.begindate"
@@ -65,60 +65,60 @@
 
       <el-table-column prop="rentid" label="出租单号" align="center"/>
 
-      <el-table-column prop="carnumber" label="车牌号" align="center" />
+      <el-table-column prop="carnumber" label="车牌号" align="center"/>
 
       <el-table-column prop="price" label="出租价格" align="center"/>
 
-      <el-table-column label="归还状态" align="center" >
+      <el-table-column label="归还状态" align="center">
         <template slot-scope="scope">
           {{ scope.row.rentflag === 0 ? '未归还' : '已归还'}}
         </template>
       </el-table-column>
 
-      <el-table-column label="起租时间" align="center" >
+      <el-table-column label="起租时间" align="center">
         <template slot-scope="scope">
           {{ scope.row.begindate | formatDate }}
         </template>
       </el-table-column>
 
-      <el-table-column label="还车时间" align="center" >
+      <el-table-column label="还车时间" align="center">
         <template slot-scope="scope">
           {{ scope.row.returndate | formatDate }}
         </template>
       </el-table-column>
 
-<!--      <el-table-column label="录入时间" align="center" width="155">-->
-<!--        <template slot-scope="scope">-->
-<!--          {{ scope.row.createtime | formatDate }}-->
-<!--        </template>-->
-<!--      </el-table-column>-->
+      <!--      <el-table-column label="录入时间" align="center" width="155">-->
+      <!--        <template slot-scope="scope">-->
+      <!--          {{ scope.row.createtime | formatDate }}-->
+      <!--        </template>-->
+      <!--      </el-table-column>-->
 
 
-<!--      <el-table-column label="操作" align="center" fixed="right" width="250">-->
-<!--        <template slot-scope="scope">-->
+      <!--      <el-table-column label="操作" align="center" fixed="right" width="250">-->
+      <!--        <template slot-scope="scope">-->
 
-<!--          <el-button-->
-<!--            type="text"-->
-<!--            size="mini"-->
-<!--            icon="el-icon-edit"-->
-<!--            @click="edit(scope.row.rentid)"-->
-<!--          >编辑</el-button>-->
+      <!--          <el-button-->
+      <!--            type="text"-->
+      <!--            size="mini"-->
+      <!--            icon="el-icon-edit"-->
+      <!--            @click="edit(scope.row.rentid)"-->
+      <!--          >编辑</el-button>-->
 
-<!--          <el-button-->
-<!--            type="text"-->
-<!--            size="mini"-->
-<!--            icon="el-icon-delete"-->
-<!--            @click="removeDataById(scope.row.rentid)"-->
-<!--          >删除</el-button>-->
+      <!--          <el-button-->
+      <!--            type="text"-->
+      <!--            size="mini"-->
+      <!--            icon="el-icon-delete"-->
+      <!--            @click="removeDataById(scope.row.rentid)"-->
+      <!--          >删除</el-button>-->
 
-<!--          <el-button-->
-<!--            type="text"-->
-<!--            size="mini"-->
-<!--            icon="el-icon-download"-->
-<!--            @click="exportExcel(scope.row.rentid)"-->
-<!--          >导出出租单</el-button>-->
-<!--        </template>-->
-<!--      </el-table-column>-->
+      <!--          <el-button-->
+      <!--            type="text"-->
+      <!--            size="mini"-->
+      <!--            icon="el-icon-download"-->
+      <!--            @click="exportExcel(scope.row.rentid)"-->
+      <!--          >导出出租单</el-button>-->
+      <!--        </template>-->
+      <!--      </el-table-column>-->
     </el-table>
 
     <el-pagination class="pull-right"
@@ -153,7 +153,8 @@
                   v-for="dict in statusOptions"
                   :key="dict.value"
                   :label="dict.value"
-                >{{dict.label}}</el-radio>
+                >{{dict.label}}
+                </el-radio>
               </el-radio-group>
             </el-form-item>
           </el-col>
@@ -204,28 +205,28 @@
     },
     methods: {
       exportExcel(rentid) {
-        this.$confirm("是否确认导出编号为" + rentid + "的出租单信息?", "警告", {
+        this.$confirm('是否确认导出编号为' + rentid + '的出租单信息?', '警告', {
           confirmButtonText: '确认',
           cancelButtonText: '取消',
           type: 'warning'
         }).then(() => {
           axios({
             headers: {
-              'Authorization' : getToken()
+              'Authorization': getToken()
             },
             url: `http://localhost:9999/rent/export/${rentid}`,
             method: 'get',
             responseType: 'blob'
           }).then(response => {
-            const link = document.createElement('a');
-            let blob = new Blob([response.data], {type: 'application/vnd.ms-excel'});
-            link.style.display = 'none';
-            link.href = URL.createObjectURL(blob);
+            const link = document.createElement('a')
+            let blob = new Blob([response.data], { type: 'application/vnd.ms-excel' })
+            link.style.display = 'none'
+            link.href = URL.createObjectURL(blob)
 
-            link.setAttribute('download', '出租单信息' + '.xlsx');
-            document.body.appendChild(link);
-            link.click();
-            document.body.removeChild(link);
+            link.setAttribute('download', '出租单信息' + '.xlsx')
+            document.body.appendChild(link)
+            link.click()
+            document.body.removeChild(link)
           })
         })
       },
@@ -285,7 +286,7 @@
       },
       // 取消按钮
       cancel() {
-        this.dialogVisible = false;
+        this.dialogVisible = false
         this.resetData()
       },
       submitForm() {

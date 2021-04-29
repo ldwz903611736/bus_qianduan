@@ -1,5 +1,4 @@
 import request from '@/utils/request'
-import id from 'element-ui/src/locale/lang/id'
 
 export default {
   // 客户列表

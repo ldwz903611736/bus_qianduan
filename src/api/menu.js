@@ -43,13 +43,13 @@ export default {
     })
   },
 
-  // 获取当前用户的菜单
-  getCurrentUserMenu() {
-    return request({
-      url: 'menu/currentUser',
-      method: 'get'
-    })
-  },
+  // // 获取当前用户的菜单
+  // getCurrentUserMenu() {
+  //   return request({
+  //     url: 'menu/currentUser',
+  //     method: 'get'
+  //   })
+  // },
 
   // 删除菜单
   removeById(id) {

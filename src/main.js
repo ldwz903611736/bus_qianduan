@@ -23,7 +23,6 @@ Vue.filter('formatDate', function(value) {
   return Moment(value).format('YYYY-MM-DD HH:mm:ss')
 })
 
-
 /**
  * If you don't want to use mock-server
  * you want to use MockJs for mock api

@@ -1,8 +1,6 @@
 import request from '@/utils/request'
-import id from 'element-ui/src/locale/lang/id'
 
 export default {
-
 
   // 出租车辆
   rent(rentDTO) {

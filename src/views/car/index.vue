@@ -4,24 +4,24 @@
     <el-form ref="busCarQuery" :model="busCarQuery" label-width="80px" class="demo-form-inline">
       <el-row>
         <el-col :span="6">
-          <el-form-item label="车牌号" prop="carnumber" >
+          <el-form-item label="车牌号" prop="carnumber">
             <el-input size="small" v-model="busCarQuery.carnumber" placeholder="请输入车牌号"/>
           </el-form-item>
         </el-col>
         <el-col :span="6">
           <el-form-item label="车辆类型" prop="cartype">
-            <el-input size="small" v-model="busCarQuery.cartype" placeholder="请输入车辆类型" />
+            <el-input size="small" v-model="busCarQuery.cartype" placeholder="请输入车辆类型"/>
           </el-form-item>
         </el-col>
         <el-col :span="6">
           <el-form-item label="车辆颜色" prop="color">
-            <el-input size="small" v-model="busCarQuery.color" placeholder="请输入车辆颜色" />
+            <el-input size="small" v-model="busCarQuery.color" placeholder="请输入车辆颜色"/>
           </el-form-item>
         </el-col>
       </el-row>
       <el-row>
         <el-col :span="6">
-          <el-form-item label="车辆描述" prop="description" >
+          <el-form-item label="车辆描述" prop="description">
             <el-input size="small" v-model="busCarQuery.description" placeholder="请输入车辆描述"/>
           </el-form-item>
         </el-col>
@@ -44,7 +44,9 @@
         <el-button type="primary" plain size="mini" icon="el-icon-plus" @click="add()">新增</el-button>
       </el-col>
       <el-col :span="1.5">
-        <el-button type="danger" plain size="mini" icon="el-icon-delete" :disabled="mutiple" @click="removeBatch()">批量删除</el-button>
+        <el-button type="danger" plain size="mini" icon="el-icon-delete" :disabled="mutiple" @click="removeBatch()">
+          批量删除
+        </el-button>
       </el-col>
     </el-row>
 
@@ -104,25 +106,27 @@
             size="mini"
             icon="el-icon-edit"
             @click="edit(scope.row.carnumber)"
-          >编辑</el-button>
+          >编辑
+          </el-button>
 
           <el-button
             type="text"
             size="mini"
             icon="el-icon-delete"
             @click="removeDataById(scope.row.carnumber)"
-          >删除</el-button>
+          >删除
+          </el-button>
         </template>
       </el-table-column>
     </el-table>
 
     <el-pagination class="pull-right"
-      :current-page="page"
-      :page-size="limit"
-      :total="total"
-      background
-      layout="prev, pager, next"
-      @current-change="getList"
+                   :current-page="page"
+                   :page-size="limit"
+                   :total="total"
+                   background
+                   layout="prev, pager, next"
+                   @current-change="getList"
     />
 
 
@@ -132,43 +136,43 @@
         <el-row>
           <el-col :span="12">
             <el-form-item label="车牌号" prop="identity">
-              <el-input size="small" v-model="form.carnumber" placeholder="请输入车牌号" />
+              <el-input size="small" v-model="form.carnumber" placeholder="请输入车牌号"/>
             </el-form-item>
           </el-col>
           <el-col :span="12">
             <el-form-item label="车辆类型" prop="career">
-              <el-input size="small" v-model="form.cartype" placeholder="请输入车辆类型" />
+              <el-input size="small" v-model="form.cartype" placeholder="请输入车辆类型"/>
             </el-form-item>
           </el-col>
         </el-row>
         <el-row>
           <el-col :span="12">
             <el-form-item label="车辆颜色" prop="custname">
-              <el-input size="small" v-model="form.color" placeholder="请输入车辆颜色" />
+              <el-input size="small" v-model="form.color" placeholder="请输入车辆颜色"/>
             </el-form-item>
           </el-col>
           <el-col :span="12">
             <el-form-item label="车辆价格" prop="address">
-              <el-input size="small" v-model="form.price" placeholder="请输入车辆价格" />
+              <el-input size="small" v-model="form.price" placeholder="请输入车辆价格"/>
             </el-form-item>
           </el-col>
         </el-row>
         <el-row>
           <el-col :span="12">
             <el-form-item label="出租价格" prop="phone">
-              <el-input size="small" v-model="form.rentprice" placeholder="请输入出租价格" />
+              <el-input size="small" v-model="form.rentprice" placeholder="请输入出租价格"/>
             </el-form-item>
           </el-col>
           <el-col :span="12">
             <el-form-item label="出租押金" prop="phone">
-              <el-input size="small" v-model="form.deposit" placeholder="请输入出租押金" />
+              <el-input size="small" v-model="form.deposit" placeholder="请输入出租押金"/>
             </el-form-item>
           </el-col>
         </el-row>
         <el-row>
           <el-col :span="12">
             <el-form-item label="车辆描述" prop="phone">
-              <el-input size="small" v-model="form.description" placeholder="请输入车辆描述" />
+              <el-input size="small" v-model="form.description" placeholder="请输入车辆描述"/>
             </el-form-item>
           </el-col>
         </el-row>
@@ -181,7 +185,7 @@
               :show-file-list="false"
               :on-success="handleAvatarSuccess"
               :before-upload="beforeAvatarUpload"
-              >
+            >
               <img v-if="form.carimg" :src="form.carimg" class="avatar" v-loading="loading">
               <i v-else class="el-icon-plus avatar-uploader-icon"></i>
             </el-upload>
@@ -204,8 +208,8 @@
   export default {
     computed: {
       headers() {
-        return{
-          "Authorization": '' + getToken() // 直接从本地获取token就行
+        return {
+          'Authorization': '' + getToken() // 直接从本地获取token就行
         }
       }
     },
@@ -277,9 +281,9 @@
       },
       removeBatch() {
         var ids = this.tableChecked.map(item => item.carnumber)
-        this.$confirm("是否删除编号为" + ids + "的数据项", "警告", {
+        this.$confirm('是否删除编号为' + ids + '的数据项', '警告', {
           confirmButtonText: '确定',
-          cancelButtonText: '取消',
+          cancelButtonText: '取消'
         }).then(() => {
           car.removeBatch(ids).then(response => {
             // 删除成功
@@ -300,8 +304,8 @@
         })
       },
       handleSelectionChange(val) {
-        this.tableChecked = val;
-        this.mutiple = !val.length;
+        this.tableChecked = val
+        this.mutiple = !val.length
       },
       // 新增
       add() {
@@ -320,11 +324,11 @@
       },
       // 取消按钮
       cancel() {
-        this.dialogVisible = false;
+        this.dialogVisible = false
         this.resetData()
       },
       submitForm() {
-        if (this.title == '新增车辆' ) {
+        if (this.title == '新增车辆') {
           car.add(this.form).then(response => {
             // 提示成功信息
             this.$message({
@@ -371,19 +375,19 @@
         }
       },
       handleAvatarSuccess(res, file) {
-        this.form.carimg = res.data;
+        this.form.carimg = res.data
       },
       beforeAvatarUpload(file) {
-        const isJPG = file.type === 'image/jpeg';
-        const isLt2M = file.size / 1024 / 1024 < 2;
+        const isJPG = file.type === 'image/jpeg'
+        const isLt2M = file.size / 1024 / 1024 < 2
 
         if (!isJPG) {
-          this.$message.error('上传头像图片只能是 JPG 格式!');
+          this.$message.error('上传头像图片只能是 JPG 格式!')
         }
         if (!isLt2M) {
-          this.$message.error('上传头像图片大小不能超过 2MB!');
+          this.$message.error('上传头像图片大小不能超过 2MB!')
         }
-        return isJPG && isLt2M;
+        return isJPG && isLt2M
       }
     }
   }
@@ -397,9 +401,11 @@
     position: relative;
     overflow: hidden;
   }
+
   .avatar-uploader .el-upload:hover {
     border-color: #409EFF;
   }
+
   .avatar-uploader-icon {
     font-size: 28px;
     color: #8c939d;
@@ -408,6 +414,7 @@
     line-height: 178px;
     text-align: center;
   }
+
   .avatar {
     width: 178px;
     height: 178px;

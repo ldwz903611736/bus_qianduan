@@ -4,24 +4,24 @@
     <el-form ref="busRentQuery" :model="busRentQuery" label-width="80px" class="demo-form-inline">
       <el-row>
         <el-col :span="6">
-          <el-form-item label="出租单号" prop="rentid" >
+          <el-form-item label="出租单号" prop="rentid">
             <el-input size="small" v-model="busRentQuery.rentid" placeholder="请输入出租单号"/>
           </el-form-item>
         </el-col>
         <el-col :span="6">
           <el-form-item label="身份证号" prop="identity">
-            <el-input size="small" v-model="busRentQuery.identity" placeholder="请输入身份证号" />
+            <el-input size="small" v-model="busRentQuery.identity" placeholder="请输入身份证号"/>
           </el-form-item>
         </el-col>
         <el-col :span="6">
           <el-form-item label="车牌号" prop="carnumber">
-            <el-input size="small" v-model="busRentQuery.carnumber" placeholder="请输入车牌号" />
+            <el-input size="small" v-model="busRentQuery.carnumber" placeholder="请输入车牌号"/>
           </el-form-item>
         </el-col>
       </el-row>
       <el-row>
         <el-col :span="6">
-          <el-form-item label="开始时间" prop="begindate" >
+          <el-form-item label="开始时间" prop="begindate">
             <el-date-picker
               size="small"
               v-model="busRentQuery.begindate"
@@ -99,7 +99,7 @@
       </el-table-column>
 
 
-      <el-table-column label="操作" align="center" fixed="right" width="250">
+      <el-table-column label="操作" align="center" fixed="right" width="300">
         <template slot-scope="scope">
 
           <el-button
@@ -107,32 +107,44 @@
             size="mini"
             icon="el-icon-edit"
             @click="edit(scope.row.rentid)"
-          >编辑</el-button>
+          >编辑
+          </el-button>
 
           <el-button
-          type="text"
-          size="mini"
-          icon="el-icon-delete"
-          @click="removeDataById(scope.row.rentid)"
-         >删除</el-button>
+            type="text"
+            size="mini"
+            icon="el-icon-delete"
+            @click="removeDataById(scope.row.rentid)"
+          >删除
+          </el-button>
+
+          <el-button
+            type="text"
+            size="mini"
+            icon="el-icon-edit"
+            :disabled="scope.row.rentflag === 1"
+            @click="goCheckAdd(scope.row.rentid)"
+          >添加检查单
+          </el-button>
 
           <el-button
             type="text"
             size="mini"
             icon="el-icon-download"
             @click="exportExcel(scope.row.rentid)"
-          >导出出租单</el-button>
+          >导出出租单
+          </el-button>
         </template>
       </el-table-column>
     </el-table>
 
     <el-pagination class="pull-right"
-      :current-page="page"
-      :page-size="limit"
-      :total="total"
-      background
-      layout="prev, pager, next"
-      @current-change="getList"
+                   :current-page="page"
+                   :page-size="limit"
+                   :total="total"
+                   background
+                   layout="prev, pager, next"
+                   @current-change="getList"
     />
 
     <!-- 编辑对话框 -->
@@ -158,7 +170,8 @@
                   v-for="dict in statusOptions"
                   :key="dict.value"
                   :label="dict.value"
-                >{{dict.label}}</el-radio>
+                >{{dict.label}}
+                </el-radio>
               </el-radio-group>
             </el-form-item>
           </el-col>
@@ -209,28 +222,28 @@
     },
     methods: {
       exportExcel(rentid) {
-        this.$confirm("是否确认导出编号为" + rentid + "的出租单信息?", "警告", {
+        this.$confirm('是否确认导出编号为' + rentid + '的出租单信息?', '警告', {
           confirmButtonText: '确认',
           cancelButtonText: '取消',
           type: 'warning'
         }).then(() => {
           axios({
             headers: {
-              'Authorization' : getToken()
+              'Authorization': getToken()
             },
             url: `http://localhost:9999/rent/export/${rentid}`,
             method: 'get',
             responseType: 'blob'
           }).then(response => {
-            const link = document.createElement('a');
-            let blob = new Blob([response.data], {type: 'application/vnd.ms-excel'});
-            link.style.display = 'none';
-            link.href = URL.createObjectURL(blob);
+            const link = document.createElement('a')
+            let blob = new Blob([response.data], { type: 'application/vnd.ms-excel' })
+            link.style.display = 'none'
+            link.href = URL.createObjectURL(blob)
 
-            link.setAttribute('download', '出租单信息' + '.xlsx');
-            document.body.appendChild(link);
-            link.click();
-            document.body.removeChild(link);
+            link.setAttribute('download', '出租单信息' + '.xlsx')
+            document.body.appendChild(link)
+            link.click()
+            document.body.removeChild(link)
           })
         })
       },
@@ -290,33 +303,36 @@
       },
       // 取消按钮
       cancel() {
-        this.dialogVisible = false;
+        this.dialogVisible = false
         this.resetData()
       },
       submitForm() {
-          rent.edit(this.form).then(response => {
+        rent.edit(this.form).then(response => {
+          // 提示成功信息
+          this.$message({
+            type: 'success',
+            message: '修改成功!'
+          })
+          // 关闭对话框
+          this.dialogVisible = false
+          // 表单信息清空
+          this.form = {}
+          // 查询所有，更新数据
+          this.getList()
+        })
+          .catch(error => {
             // 提示成功信息
             this.$message({
-              type: 'success',
-              message: '修改成功!'
+              type: 'danger',
+              message: '修改失败!'
             })
-            // 关闭对话框
-            this.dialogVisible = false
             // 表单信息清空
             this.form = {}
-            // 查询所有，更新数据
-            this.getList()
+            console.log(error)
           })
-            .catch(error => {
-              // 提示成功信息
-              this.$message({
-                type: 'danger',
-                message: '修改失败!'
-              })
-              // 表单信息清空
-              this.form = {}
-              console.log(error)
-            })
+      },
+      goCheckAdd(rentid) {
+        this.$router.push({ path: '/check/add', query: { rentid: rentid } })
       }
     }
   }

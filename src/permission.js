@@ -7,7 +7,6 @@ import { getToken } from '@/utils/auth'
 import Layout from '@/layout'
 import menu from '@/api/menu'
 
-
 NProgress.configure({ showSpinner: false })
 
 const whiteList = ['/login', '/auth-redirect', '/bind', '/register']
@@ -15,10 +14,10 @@ const whiteList = ['/login', '/auth-redirect', '/bind', '/register']
 function in_array(str, arr, length) {
   for (var s = 0; s < length; s++) {
     if (str == arr[s]) {
-      return true;
+      return true
     }
   }
-  return false;
+  return false
 }
 
 router.beforeEach((to, from, next) => {
@@ -33,7 +32,7 @@ router.beforeEach((to, from, next) => {
         var getRoute = response.data
         console.log(getRoute)
         var len = router.options.routes.length
-        for(var i = 0; i < len; i++) {
+        for (var i = 0; i < len; i++) {
           if (in_array(router.options.routes[i].name, getRoute, getRoute.length)) {
             router.options.routes[i].hidden = false
           } else {

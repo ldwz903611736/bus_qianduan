@@ -4,7 +4,7 @@
     <el-form ref="busCarQuery" :model="busCarQuery" label-width="80px" class="demo-form-inline">
       <el-row>
         <el-col :span="5">
-          <el-form-item label="车牌号" prop="carnumber" >
+          <el-form-item label="车牌号" prop="carnumber">
             <el-input size="small" v-model="busCarQuery.carnumber" placeholder="请输入车牌号"/>
           </el-form-item>
         </el-col>
@@ -38,11 +38,11 @@
 
       <el-table-column prop="deposit" align="center" label="出租押金"/>
 
-<!--      <el-table-column label="出租状态" align="center" width="50">-->
-<!--        <template slot-scope="scope">-->
-<!--          {{ scope.row.isrenting === 1 ? '在租' : '未租'}}-->
-<!--        </template>-->
-<!--      </el-table-column>-->
+      <!--      <el-table-column label="出租状态" align="center" width="50">-->
+      <!--        <template slot-scope="scope">-->
+      <!--          {{ scope.row.isrenting === 1 ? '在租' : '未租'}}-->
+      <!--        </template>-->
+      <!--      </el-table-column>-->
 
       <el-table-column prop="description" align="center" label="车辆描述"/>
 
@@ -56,11 +56,11 @@
         </template>
       </el-table-column>
 
-<!--      <el-table-column label="录入时间" align="center" width="200">-->
-<!--        <template slot-scope="scope">-->
-<!--          {{ scope.row.createtime | formatDate }}-->
-<!--        </template>-->
-<!--      </el-table-column>-->
+      <!--      <el-table-column label="录入时间" align="center" width="200">-->
+      <!--        <template slot-scope="scope">-->
+      <!--          {{ scope.row.createtime | formatDate }}-->
+      <!--        </template>-->
+      <!--      </el-table-column>-->
 
       <el-table-column label="操作" align="center" width="200">
         <template slot-scope="scope">
@@ -69,7 +69,8 @@
             size="mini"
             icon="el-icon-edit"
             @click="rent(scope.row.carnumber)"
-          >我要租赁</el-button>
+          >我要租赁
+          </el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -149,13 +150,13 @@
             </el-form-item>
           </el-col>
         </el-row>
-<!--        <el-row>-->
-<!--          <el-col :span="12">-->
-<!--            <el-form-item label="身份证号" prop="identity">-->
-<!--              <el-input size="small" v-model="form.identity" placeholder="请输入客户身份证号" />-->
-<!--            </el-form-item>-->
-<!--          </el-col>-->
-<!--        </el-row>-->
+        <!--        <el-row>-->
+        <!--          <el-col :span="12">-->
+        <!--            <el-form-item label="身份证号" prop="identity">-->
+        <!--              <el-input size="small" v-model="form.identity" placeholder="请输入客户身份证号" />-->
+        <!--            </el-form-item>-->
+        <!--          </el-col>-->
+        <!--        </el-row>-->
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button size="small" type="primary" @click="submitForm">确 定</el-button>
@@ -256,9 +257,9 @@
       },
       // 取消按钮
       cancel() {
-        this.dialogVisible = false;
+        this.dialogVisible = false
         this.resetData()
-      },
+      }
     }
   }
 </script>

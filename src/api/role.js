@@ -14,7 +14,7 @@ export default {
   getByRoleId(roleid) {
     return request({
       url: `/role/${roleid}`,
-      method: 'get',
+      method: 'get'
     })
   },
 

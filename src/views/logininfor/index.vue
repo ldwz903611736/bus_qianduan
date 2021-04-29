@@ -4,13 +4,13 @@
     <el-form ref="loginLogQuery" :model="loginLogQuery" label-width="80px" class="demo-form-inline">
       <el-row>
         <el-col :span="6">
-          <el-form-item label="登录地址" prop="title" >
+          <el-form-item label="登录地址" prop="title">
             <el-input size="small" v-model="loginLogQuery.ipaddr" placeholder="请输入登录地址"/>
           </el-form-item>
         </el-col>
         <el-col :span="6">
           <el-form-item label="用户名称" prop="operName">
-            <el-input size="small" v-model="loginLogQuery.userName" placeholder="请输入用户名称" />
+            <el-input size="small" v-model="loginLogQuery.userName" placeholder="请输入用户名称"/>
           </el-form-item>
         </el-col>
         <el-col :span="6">
@@ -28,7 +28,7 @@
       </el-row>
       <el-row>
         <el-col :span="6">
-          <el-form-item label="开始时间" prop="beginTime" >
+          <el-form-item label="开始时间" prop="beginTime">
             <el-date-picker
               size="small"
               v-model="loginLogQuery.beginTime"
@@ -57,7 +57,9 @@
 
       <el-row :gutter="10" class="mb8">
         <el-col :span="1.5">
-          <el-button type="danger" plain size="mini" icon="el-icon-delete" :disabled="multiple" @click="removeBatch()">删除</el-button>
+          <el-button type="danger" plain size="mini" icon="el-icon-delete" :disabled="multiple" @click="removeBatch()">
+            删除
+          </el-button>
         </el-col>
         <el-col :span="1.5">
           <el-button type="danger" plain size="mini" icon="el-icon-delete" @click="handleClean()">清空</el-button>
@@ -162,14 +164,14 @@
         this.getList()
       },
       exportExcel() {
-        this.$confirm("是否确认导出所有登录日志数据项?", "警告", {
-          confirmButtonText: "确定",
-          cancelButtonText: "取消",
-          type: "warning"
+        this.$confirm('是否确认导出所有登录日志数据项?', '警告', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
         }).then(() => {
           axios({
             headers: {
-              'Authorization' : getToken()
+              'Authorization': getToken()
             },
             url: `http://localhost:9999/loginLog/export`,
             method: 'post',
@@ -178,33 +180,33 @@
           }).then(response => {
             if (response.data.code >= 3001) {
               this.$message({
-                type: "danger",
+                type: 'danger',
                 message: response.data.message
               })
             } else {
-              const link = document.createElement('a');
-              let blob = new Blob([response.data], {type: 'application/vnd.ms-excel'});
-              link.style.display = 'none';
-              link.href = URL.createObjectURL(blob);
+              const link = document.createElement('a')
+              let blob = new Blob([response.data], { type: 'application/vnd.ms-excel' })
+              link.style.display = 'none'
+              link.href = URL.createObjectURL(blob)
 
-              link.setAttribute('download', '日志' + '.xlsx');
-              document.body.appendChild(link);
-              link.click();
-              document.body.removeChild(link);
+              link.setAttribute('download', '日志' + '.xlsx')
+              document.body.appendChild(link)
+              link.click()
+              document.body.removeChild(link)
             }
           })
         })
       },
       /** 清空按钮操作 */
       handleClean() {
-        this.$confirm('是否确认清空所有登录日志数据项?', "警告", {
-          confirmButtonText: "确定",
-          cancelButtonText: "取消",
-          type: "warning"
+        this.$confirm('是否确认清空所有登录日志数据项?', '警告', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
         }).then(function() {
-          return loginLog.clean();
+          return loginLog.clean()
         }).then(() => {
-          this.getList();
+          this.getList()
           this.$message({
             type: 'success',
             message: '清空成功!'
@@ -213,10 +215,10 @@
       },
       removeBatch() {
         var ids = this.tableChecked.map(item => item.operId)
-        this.$confirm('是否确认删除日志编号为"' + ids + '"的数据项?', "警告", {
-          confirmButtonText: "确定",
-          cancelButtonText: "取消",
-          type: "warning"
+        this.$confirm('是否确认删除日志编号为"' + ids + '"的数据项?', '警告', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
         }).then(() => {
           loginLog.removeBatch(ids).then(response => {
             // 删除成功
@@ -237,8 +239,8 @@
         })
       },
       handleSelectionChange(val) {
-        this.tableChecked = val;
-        this.multiple = !val.length;
+        this.tableChecked = val
+        this.multiple = !val.length
       }
     }
   }

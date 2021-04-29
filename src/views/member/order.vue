@@ -4,7 +4,7 @@
     <el-form ref="busOrderQuery" :model="busOrderQuery" label-width="80px" class="demo-form-inline">
       <el-row>
         <el-col :span="5">
-          <el-form-item label="车牌号" prop="carnumber" >
+          <el-form-item label="车牌号" prop="carnumber">
             <el-input size="small" v-model="busOrderQuery.carnumber" placeholder="请输入车牌号"/>
           </el-form-item>
         </el-col>
@@ -47,7 +47,7 @@
 
       <el-table-column label="支付时间" align="center" width="200">
         <template slot-scope="scope">
-          {{ scope.row.paytime != null ? scope.row.paytime.replace("T", " ") : "未支付" }}
+          {{ scope.row.paytime != null ? scope.row.paytime.replace('T', ' ') : '未支付' }}
         </template>
       </el-table-column>
 
@@ -71,7 +71,8 @@
             icon="el-icon-edit"
             :disabled="scope.row.status === true"
             @click="pay(scope.row.orderid)"
-          >去支付</el-button>
+          >去支付
+          </el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -150,7 +151,7 @@
       },
       // 取消按钮
       cancel() {
-        this.dialogVisible = false;
+        this.dialogVisible = false
         this.resetData()
       }
     }

@@ -19,12 +19,13 @@
           :disabled="btnDisabled"
           type="primary"
           icon="el-icon-search"
-          @click="showChart()">查询</el-button>
+          @click="showChart()">查询
+        </el-button>
       </el-form-item>
     </el-form>
 
     <div class="chart-container">
-      <div id="chart" class="chart" style="height:500px;width:100%" />
+      <div id="chart" class="chart" style="height:500px;width:100%"/>
     </div>
   </div>
 </template>

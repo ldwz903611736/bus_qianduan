@@ -1,7 +1,7 @@
 import { constantRoutes } from '@/router'
 import menu from '@/api/menu'
 import Layout from '@/layout/index'
-import ParentView from '@/components/ParentView';
+import ParentView from '@/components/ParentView'
 
 const permission = {
   state: {
@@ -16,7 +16,7 @@ const permission = {
     },
     SET_SIDEBAR_ROUTERS: (state, routers) => {
       state.sidebarRouters = constantRoutes.concat(routers)
-    },
+    }
   },
   actions: {
     // 生成路由
@@ -67,7 +67,7 @@ function filterChildren(childrenMap) {
     if (el.children && el.children.length) {
       if (el.component === 'ParentView') {
         el.children.forEach(c => {
-          c.path = el.path + "/" + c.path
+          c.path = el.path + '/' + c.path
           if (c.children && c.children.length) {
             children = children.concat(filterChildren(c.children, c))
             return

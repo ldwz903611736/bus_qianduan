@@ -4,24 +4,24 @@
     <el-form ref="busCheckQuery" :model="busCheckQuery" label-width="80px" class="demo-form-inline">
       <el-row>
         <el-col :span="6">
-          <el-form-item label="检查单号" prop="checkid" >
+          <el-form-item label="检查单号" prop="checkid">
             <el-input size="small" v-model="busCheckQuery.checkid" placeholder="请输入检查单号"/>
           </el-form-item>
         </el-col>
         <el-col :span="6">
           <el-form-item label="存在问题" prop="problem">
-            <el-input size="small" v-model="busCheckQuery.problem" placeholder="请输入存在问题" />
+            <el-input size="small" v-model="busCheckQuery.problem" placeholder="请输入存在问题"/>
           </el-form-item>
         </el-col>
         <el-col :span="6">
           <el-form-item label="问题描述" prop="checkdesc">
-            <el-input size="small" v-model="busCheckQuery.checkdesc" placeholder="请输入问题描述" />
+            <el-input size="small" v-model="busCheckQuery.checkdesc" placeholder="请输入问题描述"/>
           </el-form-item>
         </el-col>
       </el-row>
       <el-row>
         <el-col :span="6">
-          <el-form-item label="出租单号" prop="rentid" >
+          <el-form-item label="出租单号" prop="rentid">
             <el-input size="small" v-model="busCheckQuery.rentid" placeholder="请输入出租单号"/>
           </el-form-item>
         </el-col>
@@ -57,7 +57,9 @@
 
     <el-row :gutter="10" class="mb8">
       <el-col :span="1.5">
-        <el-button type="danger" size="mini" plain icon="el-icon-delete" :disabled="multiple" @click="removeBatch()">批量删除</el-button>
+        <el-button type="danger" size="mini" plain icon="el-icon-delete" :disabled="multiple" @click="removeBatch()">
+          批量删除
+        </el-button>
       </el-col>
     </el-row>
 
@@ -107,7 +109,7 @@
 
       <el-table-column label="支付时间" align="center" width="200">
         <template slot-scope="scope">
-          {{ scope.row.paytime != null ? scope.row.paytime.replace("T", " ") : "未支付" }}
+          {{ scope.row.paytime != null ? scope.row.paytime.replace('T', ' ') : '未支付' }}
         </template>
       </el-table-column>
 
@@ -118,32 +120,35 @@
             size="mini"
             icon="el-icon-edit"
             @click="edit(scope.row.checkid)"
-          >编辑</el-button>
+          >编辑
+          </el-button>
 
           <el-button
             type="text"
             size="mini"
             icon="el-icon-delete"
             @click="removeDataById(scope.row.checkid)"
-          >删除</el-button>
+          >删除
+          </el-button>
 
           <el-button
             type="text"
             size="mini"
             icon="el-icon-download"
             @click="exportExcel(scope.row.checkid)"
-          >导出检查单</el-button>
+          >导出检查单
+          </el-button>
         </template>
       </el-table-column>
     </el-table>
 
     <el-pagination class="pull-right"
-      :current-page="page"
-      :page-size="limit"
-      :total="total"
-      background
-      layout="prev, pager, next"
-      @current-change="getList"
+                   :current-page="page"
+                   :page-size="limit"
+                   :total="total"
+                   background
+                   layout="prev, pager, next"
+                   @current-change="getList"
     />
 
     <!-- 修改对话框 -->
@@ -152,19 +157,19 @@
         <el-row>
           <el-col :span="12">
             <el-form-item label="存在问题" prop="problem">
-              <el-input size="small" v-model="form.problem" placeholder="请输入存在问题" />
+              <el-input size="small" v-model="form.problem" placeholder="请输入存在问题"/>
             </el-form-item>
           </el-col>
           <el-col :span="12">
             <el-form-item label="问题描述" prop="checkdesc">
-              <el-input size="small" v-model="form.checkdesc" placeholder="请输入问题描述" />
+              <el-input size="small" v-model="form.checkdesc" placeholder="请输入问题描述"/>
             </el-form-item>
           </el-col>
         </el-row>
         <el-row>
           <el-col :span="12">
             <el-form-item label="赔付金额" prop="paymoney">
-              <el-input size="small" v-model="form.paymoney" placeholder="请输入赔付金额" />
+              <el-input size="small" v-model="form.paymoney" placeholder="请输入赔付金额"/>
             </el-form-item>
           </el-col>
         </el-row>
@@ -205,14 +210,14 @@
     },
     methods: {
       exportExcel(checkid) {
-        this.$confirm("是否确认导出编号为" + checkid + "的检查单信息?", "警告", {
+        this.$confirm('是否确认导出编号为' + checkid + '的检查单信息?', '警告', {
           confirmButtonText: '确认',
           cancelButtonText: '取消',
           type: 'warning'
         }).then(() => {
           axios({
             headers: {
-              'Authorization' : getToken()
+              'Authorization': getToken()
             },
             url: `http://localhost:9999/check/export/${checkid}`,
             method: 'get',
@@ -224,15 +229,15 @@
                 message: response.data.message
               })
             } else {
-              const link = document.createElement('a');
-              let blob = new Blob([response.data], {type: 'application/vnd.ms-excel'});
-              link.style.display = 'none';
-              link.href = URL.createObjectURL(blob);
+              const link = document.createElement('a')
+              let blob = new Blob([response.data], { type: 'application/vnd.ms-excel' })
+              link.style.display = 'none'
+              link.href = URL.createObjectURL(blob)
 
-              link.setAttribute('download', '检查单信息' + '.xlsx');
-              document.body.appendChild(link);
-              link.click();
-              document.body.removeChild(link);
+              link.setAttribute('download', '检查单信息' + '.xlsx')
+              document.body.appendChild(link)
+              link.click()
+              document.body.removeChild(link)
             }
           })
         })
@@ -302,8 +307,8 @@
           })
       },
       handleSelectionChange(val) {
-        this.tableChecked = val;
-        this.multiple = !val.length;
+        this.tableChecked = val
+        this.multiple = !val.length
       },
       // 编辑
       edit(id) {
@@ -316,33 +321,33 @@
       },
       // 取消按钮
       cancel() {
-        this.dialogVisible = false;
+        this.dialogVisible = false
         this.resetData()
       },
       submitForm() {
-          check.edit(this.form).then(response => {
+        check.edit(this.form).then(response => {
+          // 提示成功信息
+          this.$message({
+            type: 'success',
+            message: '修改成功!'
+          })
+          // 关闭对话框
+          this.dialogVisible = false
+          // 表单信息清空
+          this.form = {}
+          // 查询所有，更新数据
+          this.getList()
+        })
+          .catch(error => {
             // 提示成功信息
             this.$message({
-              type: 'success',
-              message: '修改成功!'
+              type: 'danger',
+              message: '修改失败!'
             })
-            // 关闭对话框
-            this.dialogVisible = false
             // 表单信息清空
             this.form = {}
-            // 查询所有，更新数据
-            this.getList()
+            console.log(error)
           })
-            .catch(error => {
-              // 提示成功信息
-              this.$message({
-                type: 'danger',
-                message: '修改失败!'
-              })
-              // 表单信息清空
-              this.form = {}
-              console.log(error)
-            })
       }
     }
   }
