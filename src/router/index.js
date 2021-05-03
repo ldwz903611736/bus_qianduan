@@ -39,21 +39,26 @@ export const constantRoutes = [
   {
     path: '/login',
     component: () => import('@/views/login/index'),
-    name: '登录',
+    name: "登录",
     hidden: true
   },
-
+  {
+    path:'/register',
+    component: () => import('@/views/login/register'),
+    name: "注册",
+    hidden: true
+  },
   {
     path: '/404',
     component: () => import('@/views/404'),
-    name: '404',
+    name: "404",
     hidden: true
   },
 
   {
     path: '/',
     component: Layout,
-    name: '首页',
+    name: "首页",
     children: [{
       path: '/dashboard',
       name: '首页',
@@ -72,19 +77,19 @@ export const constantRoutes = [
         path: '/user/index',
         name: '用户管理',
         component: () => import('@/views/user/index'),
-        meta: { title: '用户管理', icon: 'user' }
+        meta: { title: '用户管理', icon: 'user' },
       },
       {
         path: '/role/index',
         name: '角色管理',
         component: () => import('@/views/role/index'),
-        meta: { title: '角色管理', icon: 'peoples' }
+        meta: { title: '角色管理', icon: 'peoples' },
       },
       {
         path: '/menu/index',
         name: '菜单管理',
         component: () => import('@/views/menu/index'),
-        meta: { title: '菜单管理', icon: 'tree-table' }
+        meta: { title: '菜单管理', icon: 'tree-table' },
       }
     ]
   },
@@ -100,13 +105,13 @@ export const constantRoutes = [
         path: '/customer/index',
         name: '客户管理',
         component: () => import('@/views/customer/index'),
-        meta: { title: '客户管理', icon: 'peoples' }
+        meta: { title: '客户管理', icon: 'peoples' },
       },
       {
         path: '/car/index',
         name: '车辆管理',
         component: () => import('@/views/car/index'),
-        meta: { title: '车辆管理', icon: 'car' }
+        meta: { title: '车辆管理', icon: 'car' },
       }
     ]
   },
@@ -121,32 +126,26 @@ export const constantRoutes = [
         path: '/carRent/index',
         name: '汽车出租',
         component: () => import('@/views/carRent/index'),
-        meta: { title: '汽车出租', icon: 'chuzu' }
+        meta: { title: '汽车出租', icon: 'chuzu' },
       },
       {
         path: '/rentAgreement/index',
         name: '出租单管理',
         component: () => import('@/views/rentAgreement/index'),
-        meta: { title: '出租单管理', icon: 'dan' }
-      },
-      {
-        path: '/check/add',
-        name: '添加检查单',
-        component: () => import('@/views/addCar/index'),
-        meta: { title: '添加检查单', icon: 'dan' }
+        meta: { title: '出租单管理', icon: 'dan' },
       },
       {
         path: '/faultFeedback/index',
         name: '故障查看',
         component: () => import('@/views/faultFeedback/index'),
-        meta: { title: '故障查看', icon: 'chakan' }
+        meta: { title: '故障查看', icon: 'ruku' },
       },
       {
         path: '/check/index',
         name: '检查单管理',
         component: () => import('@/views/check/index'),
-        meta: { title: '检查单管理', icon: 'dan' }
-      }
+        meta: { title: '检查单管理', icon: 'dan' },
+      },
     ]
   },
   {
@@ -160,19 +159,19 @@ export const constantRoutes = [
         path: '/customerRegion/index',
         name: '客户地区统计',
         component: () => import('@/views/customerRegion/index'),
-        meta: { title: '客户地区统计', icon: 'bingtu' }
+        meta: { title: '客户地区统计', icon: 'bingtu' },
       },
       {
         path: '/customerRegionSex/index',
         name: '客户地区性别统计',
         component: () => import('@/views/customerRegionSex/index'),
-        meta: { title: '客户地区性别统计', icon: 'bingtu' }
+        meta: { title: '客户地区性别统计', icon: 'bingtu' },
       },
       {
         path: '/companyYearGrade/index',
         name: '公司年度月份销售额',
         component: () => import('@/views/companyYearGrade/index'),
-        meta: { title: '公司年度月份销售额', icon: 'zhexiantu' }
+        meta: { title: '公司年度月份销售额', icon: 'zhexiantu' },
       }
     ]
   },
@@ -187,14 +186,14 @@ export const constantRoutes = [
         path: '/monitor/task',
         name: '定时任务',
         component: () => import('@/views/task/index'),
-        meta: { title: '定时任务', icon: 'renwu' }
+        meta: { title: '定时任务', icon: 'task' },
       },
       {
         path: '/monitor/druid',
         name: '数据监控',
         component: () => import('@/views/druid/index'),
-        meta: { title: '数据监控', icon: 'druid' }
-      }
+        meta: { title: '数据监控', icon: 'druid' },
+      },
     ]
   },
   {
@@ -208,13 +207,13 @@ export const constantRoutes = [
         path: '/log/operlog',
         name: '操作日志',
         component: () => import('@/views/operlog/index'),
-        meta: { title: '操作日志', icon: 'form' }
+        meta: { title: '操作日志', icon: 'form' },
       },
       {
         path: '/log/logininfor',
         name: '登录日志',
         component: () => import('@/views/logininfor/index'),
-        meta: { title: '登录日志', icon: 'logininfor' }
+        meta: { title: '登录日志', icon: 'logininfor' },
       }
     ]
   },
@@ -222,7 +221,7 @@ export const constantRoutes = [
     path: '/user',
     component: Layout,
     hidden: true,
-    name: '个人中心',
+    name: "个人中心",
     redirect: 'noredirect',
     children: [
       {
@@ -236,7 +235,7 @@ export const constantRoutes = [
   {
     path: '/member/rent',
     component: Layout,
-    name: '汽车租赁',
+    name: "汽车租赁",
     children: [{
       path: '/member/rent',
       name: '汽车租赁',
@@ -247,49 +246,49 @@ export const constantRoutes = [
   {
     path: '/member/myRent',
     component: Layout,
-    name: '我的租赁',
+    name: "我的租赁",
     children: [{
       path: '/member/myRent',
       name: '我的租赁',
       component: () => import('@/views/member/myRent'),
-      meta: { title: '我的租赁', icon: 'zulinzhongxin' }
+      meta: { title: '我的租赁', icon: 'car' }
     }]
   },
   {
     path: '/member/order',
     component: Layout,
-    name: '我的订单',
+    name: "我的订单",
     children: [{
       path: '/member/order',
       name: '我的订单',
       component: () => import('@/views/member/order'),
-      meta: { title: '我的订单', icon: 'dingdan' }
+      meta: { title: '我的订单', icon: 'car' }
     }]
   },
   {
     path: '/member/check',
     component: Layout,
-    name: '我的检查单',
+    name: "我的检查单",
     children: [{
       path: '/member/check',
       name: '我的检查单',
       component: () => import('@/views/member/check'),
-      meta: { title: '我的检查单', icon: 'dingdan' }
+      meta: { title: '我的检查单', icon: 'car' }
     }]
   },
   {
     path: '/member/faultFeedback',
     component: Layout,
-    name: '故障反馈',
+    name: "故障反馈",
     children: [{
       path: '/member/faultFeedback',
       name: '故障反馈',
       component: () => import('@/views/member/faultFeedback'),
-      meta: { title: '故障反馈', icon: 'guzhang' }
+      meta: { title: '故障反馈', icon: 'car' }
     }]
   },
   // 404 page must be placed at the end !!!
-  { path: '*', name: '*', redirect: '/404', hidden: true }
+  { path: '*', name: "*", redirect: '/404', hidden: true }
 ]
 
 export default new Router({
