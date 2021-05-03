@@ -7,7 +7,7 @@
       v-loading="loading"
     >
 
-      <el-table-column prop="checkid" label="检查单号" align="center" width="200"/>
+      <el-table-column prop="checkid" label="检查单号" align="center" width="210"/>
 
       <el-table-column prop="rentid" label="出租单号" align="center" width="220"/>
 

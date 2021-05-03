@@ -13,7 +13,8 @@
             <el-input size="small" v-model="busRentQuery.identity" placeholder="请输入身份证号"/>
           </el-form-item>
         </el-col>
-        <el-col :span="6">
+        <el-col :span="6"
+        >
           <el-form-item label="车牌号" prop="carnumber">
             <el-input size="small" v-model="busRentQuery.carnumber" placeholder="请输入车牌号"/>
           </el-form-item>
@@ -68,7 +69,7 @@
 
       <el-table-column prop="identity" label="身份证号" align="center" width="165"/>
 
-      <el-table-column prop="carnumber" label="车牌号" align="center" width="85"/>
+      <el-table-column prop="carnumber" label="车牌号" align="center" width="100"/>
 
       <el-table-column prop="price" label="出租价格" align="center" width="80"/>
 
@@ -89,8 +90,6 @@
           {{ scope.row.returndate | formatDate }}
         </template>
       </el-table-column>
-
-      <el-table-column prop="opername" align="center" label="操作员" width="95px"/>
 
       <el-table-column label="录入时间" align="center" width="155">
         <template slot-scope="scope">

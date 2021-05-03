@@ -80,7 +80,7 @@
                    :total="total"
                    background
                    layout="prev, pager, next"
-                   @current-change="getList"
+                   @current-change="getNotRent"
     />
 
 
@@ -195,19 +195,6 @@
         this.loading = true
         this.page = page
         car.getNotRent(this.page, this.limit)
-          .then(response => {
-            this.list = response.data.rows
-            this.total = response.data.total
-            this.loading = false
-          })
-          .catch(error => {
-            console.log(error)
-          })
-      },
-      getList(page = 1) {
-        this.loading = true
-        this.page = page
-        car.list(this.page, this.limit, this.busCarQuery)
           .then(response => {
             this.list = response.data.rows
             this.total = response.data.total

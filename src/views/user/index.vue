@@ -131,7 +131,7 @@
           </el-col>
           <el-col :span="12">
             <el-form-item label="身份证号" prop="identity">
-              <el-input v-model="form.identity" placeholder="请输入用户昵称"/>
+              <el-input v-model="form.identity" placeholder="请输入身份证号"/>
             </el-form-item>
           </el-col>
         </el-row>
@@ -143,7 +143,7 @@
           </el-col>
           <el-col :span="12">
             <el-form-item label="地址" prop="address">
-              <el-input v-model="form.address" placeholder="请输入手机号码" maxlength="11"/>
+              <el-input v-model="form.address" placeholder="请输入地址" maxlength="11"/>
             </el-form-item>
           </el-col>
         </el-row>
@@ -188,7 +188,7 @@
         <el-row>
           <el-col :span="12">
             <el-form-item label="岗位">
-              <el-input v-model="form.position" placeholder="请输入手机号码"/>
+              <el-input v-model="form.position" placeholder="请输入岗位"/>
             </el-form-item>
           </el-col>
           <el-col :span="12">

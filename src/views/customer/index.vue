@@ -83,7 +83,7 @@
 
       <el-table-column prop="phone" align="center" label="手机号码"/>
 
-      <el-table-column prop="email" align="center" label="电子邮箱" width="150"/>
+      <el-table-column prop="email" align="center" label="电子邮箱" width="170"/>
 
       <el-table-column label="性别" align="center" width="50">
         <template slot-scope="scope">

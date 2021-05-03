@@ -42,7 +42,7 @@
         </template>
       </el-table-column>
 
-      <el-table-column prop="identity" align="center" label="客户身份证号"/>
+      <el-table-column prop="identity" align="center" label="客户身份证号" width="170"/>
 
       <el-table-column prop="customername" align="center" label="客户姓名"/>
 

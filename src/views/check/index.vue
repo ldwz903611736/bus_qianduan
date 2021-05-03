@@ -77,7 +77,7 @@
         width="55">
       </el-table-column>
 
-      <el-table-column prop="checkid" label="检查单号" align="center" width="200" fixed/>
+      <el-table-column prop="checkid" label="检查单号" align="center" width="220" fixed/>
 
       <el-table-column prop="rentid" label="出租单号" align="center" width="220"/>
 

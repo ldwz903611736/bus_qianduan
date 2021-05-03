@@ -26,6 +26,7 @@
               size="small"
               v-model="form.checkdate"
               type="datetime"
+              value-format="yyyy-MM-dd HH:mm:ss"
               placeholder="选择日期时间">
             </el-date-picker>
           </el-form-item>
@@ -33,8 +34,8 @@
       </el-row>
       <el-row>
         <el-col>
-          <el-form-item label="车辆描述" prop="phone">
-            <el-input type="textarea" :rows="4" size="small" v-model="form.checkdesc" placeholder="请输入车辆描述"/>
+          <el-form-item label="问题描述" prop="phone">
+            <el-input type="textarea" :rows="4" size="small" v-model="form.checkdesc" placeholder="请输入问题描述"/>
           </el-form-item>
         </el-col>
       </el-row>

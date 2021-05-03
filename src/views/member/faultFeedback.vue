@@ -5,12 +5,13 @@
         <el-input v-model="form.carnumber" size="medium" style="width: 300px"></el-input>
       </el-form-item>
       <el-form-item label="故障描述">
-        <el-input v-model="form.desc" size="medium" style="width: 300px"></el-input>
+        <el-input v-model="form.description" size="medium" style="width: 300px"></el-input>
       </el-form-item>
       <el-form-item label="故障类型">
         <el-select v-model="form.type" placeholder="请选择活动区域">
-          <el-option label="区域一" value="shanghai"></el-option>
-          <el-option label="区域二" value="beijing"></el-option>
+          <el-option label="软件故障" value="软件故障"></el-option>
+          <el-option label="机器故障" value="机器故障"></el-option>
+          <el-option label="车身故障" value="车身故障"></el-option>
         </el-select>
       </el-form-item>
       <el-form-item label="发现故障的时间">
@@ -42,7 +43,7 @@
       </el-form-item>
       <el-form-item label="是否需要修理" prop="available">
         <el-select
-          v-model="form.replace"
+          v-model="form.replacement"
           placeholder="是否需要修理"
           clearable
           size="small"
