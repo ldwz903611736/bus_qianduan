@@ -24,8 +24,9 @@
       v-loading="loading"
     >
 
+      <el-table-column prop="orderid" align="center" label="订单号"/>
 
-      <el-table-column prop="orderid" align="center" label="车牌号"/>
+      <el-table-column prop="carnumber" align="center" label="车牌号" width="100"/>
 
       <el-table-column prop="cartype" align="center" label="车辆类型"/>
 
@@ -45,25 +46,25 @@
         </template>
       </el-table-column>
 
-      <el-table-column label="支付时间" align="center" width="200">
+      <el-table-column label="支付时间" align="center" width="180">
         <template slot-scope="scope">
           {{ scope.row.paytime != null ? scope.row.paytime.replace('T', ' ') : '未支付' }}
         </template>
       </el-table-column>
 
-      <el-table-column label="创建时间" align="center" width="200">
+      <el-table-column label="创建时间" align="center" width="180">
         <template slot-scope="scope">
           {{ scope.row.createtime | formatDate }}
         </template>
       </el-table-column>
 
-      <el-table-column label="支付状态" align="center" width="80">
+      <el-table-column label="支付状态" align="center" width="75">
         <template slot-scope="scope">
           {{ scope.row.status === true ? '已支付' : '待支付'}}
         </template>
       </el-table-column>
 
-      <el-table-column label="操作" align="center" width="200">
+      <el-table-column label="操作" align="center" width="100">
         <template slot-scope="scope">
           <el-button
             type="text"

@@ -135,6 +135,12 @@ export const constantRoutes = [
         meta: { title: '出租单管理', icon: 'dan' },
       },
       {
+        path: '/check/add',
+        name: '添加检查单',
+        component: () => import('@/views/addCar/index'),
+        meta: { title: '添加检查单', icon: 'dan' }
+      },
+      {
         path: '/faultFeedback/index',
         name: '故障查看',
         component: () => import('@/views/faultFeedback/index'),
