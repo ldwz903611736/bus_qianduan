@@ -1,10 +1,7 @@
 import router, { test } from './router'
-import store from './store'
-import { Message } from 'element-ui'
 import NProgress from 'nprogress'
 import 'nprogress/nprogress.css'
 import { getToken } from '@/utils/auth'
-import Layout from '@/layout'
 import menu from '@/api/menu'
 
 NProgress.configure({ showSpinner: false })

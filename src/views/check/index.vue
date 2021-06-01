@@ -120,6 +120,7 @@
             size="mini"
             icon="el-icon-edit"
             @click="edit(scope.row.checkid)"
+            :disabled="scope.row.pay === true"
           >编辑
           </el-button>
 
@@ -341,9 +342,11 @@
           .catch(error => {
             // 提示成功信息
             this.$message({
-              type: 'danger',
+              type: 'warning',
               message: '修改失败!'
             })
+            // 关闭对话框
+            this.dialogVisible = false
             // 表单信息清空
             this.form = {}
             console.log(error)

@@ -136,7 +136,7 @@
         <el-row>
           <el-col :span="12">
             <el-form-item label="车牌号" prop="identity">
-              <el-input size="small" v-model="form.carnumber" placeholder="请输入车牌号"/>
+              <el-input size="small" v-model="form.carnumber" placeholder="请输入车牌号" :disabled="isEdit"/>
             </el-form-item>
           </el-col>
           <el-col :span="12">
@@ -221,6 +221,7 @@
         page: 1, // 当前页
         limit: 5, // 每页记录数
         total: 0, // 总记录数
+        isEdit: false,
         busCarQuery: {},
         form: {},
         dialogVisible: false,
@@ -309,11 +310,13 @@
       },
       // 新增
       add() {
+        this.isEdit = false
         this.title = '新增车辆'
         this.dialogVisible = true
       },
       // 编辑
       edit(id) {
+        this.isEdit = true
         this.title = '修改车辆'
         // 弹出对话框
         this.dialogVisible = true
@@ -343,9 +346,11 @@
             .catch(error => {
               // 提示成功信息
               this.$message({
-                type: 'danger',
+                type: 'warning',
                 message: '新增失败!'
               })
+              // 关闭对话框
+              this.dialogVisible = false
               // 表单信息清空
               this.resetData()
               console.log(error)
@@ -365,9 +370,11 @@
             .catch(error => {
               // 提示失败信息
               this.$message({
-                type: 'danger',
+                type: 'warning',
                 message: '修改失败!'
               })
+              // 关闭对话框
+              this.dialogVisible = false
               // 表单信息清空
               this.resetData()
               console.log(error)

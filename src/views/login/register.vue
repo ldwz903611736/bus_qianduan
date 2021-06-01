@@ -120,11 +120,9 @@
             tabindex="7"
             auto-complete="on"
           />
-
         </el-form-item>
         <div
           style="width: 10%;display:flex;padding:12px 3px;color:#fff;background:rgba(0,0,0,0.1);border: 1px solid rgba(255, 255, 255, 0.1);border-radius: 5px;height:52px">
-          .com
         </div>
       </div>
 
@@ -220,7 +218,6 @@
       },
       handleback() {
         // 请求后端接口
-        this.registerForm.email = this.registerForm.email + '.com'
         customer.add(this.registerForm).then(response => {
           this.$message({
             type: 'success',

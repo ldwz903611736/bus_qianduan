@@ -49,7 +49,7 @@ service.interceptors.response.use(
     if (res.code !== 200) {
       Message({
         message: res.message || 'Error',
-        type: 'error',
+        type: 'warning',
         duration: 5 * 1000
       })
 

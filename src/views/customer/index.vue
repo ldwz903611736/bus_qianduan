@@ -133,7 +133,7 @@
         <el-row>
           <el-col :span="12">
             <el-form-item label="身份证号" prop="identity">
-              <el-input size="small" v-model="form.identity" placeholder="请输入身份证号码"/>
+              <el-input size="small" v-model="form.identity" placeholder="请输入身份证号码" :disabled="isEdit"/>
             </el-form-item>
           </el-col>
           <el-col :span="12">
@@ -204,6 +204,7 @@
         page: 1, // 当前页
         limit: 5, // 每页记录数
         total: 0, // 总记录数
+        isEdit: false,
         busCustomerQuery: {},
         title: '新增', // 新增或修改对话框标题
         form: {},
@@ -336,11 +337,13 @@
       },
       // 新增
       add() {
+        this.isEdit = false
         this.title = '新增用户'
         this.dialogVisible = true
       },
       // 编辑
       edit(id) {
+        this.isEdit = true
         this.title = '修改用户'
         // 弹出对话框
         this.dialogVisible = true
@@ -372,9 +375,11 @@
             .catch(error => {
               // 提示成功信息
               this.$message({
-                type: 'danger',
+                type: 'warning',
                 message: '新增失败!'
               })
+              // 关闭对话框
+              this.dialogVisible = false
               // 表单信息清空
               this.form = {}
               console.log(error)
@@ -396,9 +401,11 @@
             .catch(error => {
               // 提示失败信息
               this.$message({
-                type: 'danger',
+                type: 'warning',
                 message: '修改失败!'
               })
+              // 关闭对话框
+              this.dialogVisible = false
               // 表单信息清空
               this.form = {}
               console.log(error)

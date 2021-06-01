@@ -27,6 +27,15 @@ export default {
     })
   },
 
+  // 修改菜单
+  update(SysMenu) {
+    return request({
+      url: '/menu',
+      method: 'put',
+      data: SysMenu
+    })
+  },
+
   // 查询菜单下拉树结构
   getTreeselect() {
     return request({

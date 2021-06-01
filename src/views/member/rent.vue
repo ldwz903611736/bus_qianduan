@@ -248,7 +248,7 @@
             // 出租失败
             // 提示失败信息
             this.$message({
-              type: 'danger',
+              type: 'warning',
               message: '出租失败!'
             })
             // 关闭对话框

@@ -99,12 +99,13 @@
                 :normalizer="normalizer"
                 :show-count="true"
                 placeholder="选择上级菜单"
+                :disabled="isEdit"
               />
             </el-form-item>
           </el-col>
           <el-col :span="24">
             <el-form-item label="菜单类型" prop="menuType">
-              <el-radio-group v-model="form.type">
+              <el-radio-group v-model="form.type" :disabled="isEdit">
                 <el-radio :label=-1>目录</el-radio>
                 <el-radio :label=1>菜单</el-radio>
                 <el-radio :label=0>按钮</el-radio>
@@ -162,6 +163,8 @@
         loading: true,
         menuList: [],
         menuQuery: {},
+        // 是否可以修改
+        isEdit: false,
         // 菜单树选项
         menuOptions: [],
         statusOptions: [
@@ -206,6 +209,7 @@
       },
       /** 修改按钮操作 */
       handleUpdate(row) {
+        this.isEdit = true
         this.reset()
         this.getTreeselect()
         menu.getMenu(row.id).then(response => {
@@ -227,6 +231,7 @@
       },
       /** 新增菜单 */
       handleAdd(row) {
+        this.isEdit = false
         this.reset()
         this.getTreeselect()
         if (row != null && row.id) {
@@ -246,6 +251,14 @@
       submitForm() {
         if (this.form.id != undefined) {
           // 修改操作
+          menu.update(this.form).then(response => {
+            this.$message({
+              type: 'success',
+              message: '修改成功!'
+            })
+            this.open = false;
+            this.getList();
+          });
         } else {
           // 添加操作
           menu.add(this.form).then(response => {
@@ -287,7 +300,10 @@
       },
       /** 查询菜单下拉树结构 */
       getTreeselect() {
-        menu.list(this.menuQuery).then(response => {
+        var query = {
+          "type": -1
+        }
+        menu.list(query).then(response => {
           this.menuOptions = []
           const menu = { id: 0, name: '主类目', children: [] }
           menu.children = handleTree(response.data, 'id')

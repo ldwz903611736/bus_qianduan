@@ -192,7 +192,7 @@ export const constantRoutes = [
         path: '/monitor/task',
         name: '定时任务',
         component: () => import('@/views/task/index'),
-        meta: { title: '定时任务', icon: 'task' },
+        meta: { title: '定时任务', icon: 'druid' },
       },
       {
         path: '/monitor/druid',

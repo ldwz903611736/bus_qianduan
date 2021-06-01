@@ -33,16 +33,6 @@
         >删除
         </el-button>
       </el-col>
-      <el-col :span="1.5">
-        <el-button
-          type="info"
-          plain
-          icon="el-icon-s-operation"
-          size="mini"
-          @click="handleJobLog"
-        >日志
-        </el-button>
-      </el-col>
     </el-row>
 
     <el-table v-loading="loading" :data="jobList" @selection-change="handleSelectionChange">
@@ -103,6 +93,9 @@
           <el-col :span="12">
             <el-form-item label="任务分组" prop="jobGroup">
               <el-select v-model="form.jobGroup" placeholder="请选择">
+                <el-option>
+                  DEFAULT
+                </el-option>
               </el-select>
             </el-form-item>
           </el-col>
@@ -147,6 +140,8 @@
           <el-col :span="24">
             <el-form-item label="状态">
               <el-radio-group v-model="form.status">
+                <el-radio-button label="0">正常</el-radio-button>
+                <el-radio-button label="1">暂停</el-radio-button>
               </el-radio-group>
             </el-form-item>
           </el-col>
@@ -167,14 +162,11 @@
             <el-form-item label="任务名称：">{{ form.jobName }}</el-form-item>
           </el-col>
           <el-col :span="12">
-            <el-form-item label="任务分组："></el-form-item>
+            <el-form-item label="任务分组：">{{ form.jobGroup }}</el-form-item>
             <el-form-item label="创建时间：">{{ form.createTime }}</el-form-item>
           </el-col>
           <el-col :span="12">
             <el-form-item label="cron表达式：">{{ form.cronExpression }}</el-form-item>
-          </el-col>
-          <el-col :span="12">
-            <el-form-item label="下次执行时间："></el-form-item>
           </el-col>
           <el-col :span="24">
             <el-form-item label="调用目标方法：">{{ form.invokeTarget }}</el-form-item>
@@ -394,7 +386,7 @@
             message: '删除成功!'
           })
         })
-      }
+      },
     }
   }
 </script>
